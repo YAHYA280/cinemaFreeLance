@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Film, Calendar, Clock, MapPin, Users, Star, Play,
-  ChevronLeft, ChevronRight, Filter, Video, BookOpen
+  ChevronLeft, ChevronRight, Filter, Video
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
@@ -85,7 +86,6 @@ const screenings = [
     synopsisFr: 'Un classique du cinema marocain sur la resistance',
     isOpening: false,
     isPast: false,
-    isMemoryCinema: true,
   },
 ];
 
@@ -125,7 +125,7 @@ const months = [
 export default function CinemaPage() {
   const { t, isArabic } = useLanguage();
   const [selectedMonth, setSelectedMonth] = useState(0);
-  const [filter, setFilter] = useState<'all' | 'upcoming' | 'memory'>('all');
+  const [filter, setFilter] = useState<'all' | 'upcoming'>('all');
 
   const heroRef = React.useRef(null);
   const screeningsRef = React.useRef(null);
@@ -136,7 +136,6 @@ export default function CinemaPage() {
   const isMasterclassInView = useInView(masterclassRef, { once: true, margin: '-100px' });
 
   const filteredScreenings = screenings.filter((s) => {
-    if (filter === 'memory') return s.isMemoryCinema;
     if (filter === 'upcoming') return !s.isPast;
     return true;
   });
@@ -144,14 +143,20 @@ export default function CinemaPage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section - Cinema Club */}
-      <section ref={heroRef} className="relative py-32 bg-gradient-to-b from-[var(--color-curtain-dark)] via-[var(--color-crimson)]/20 to-[var(--color-black-rich)] overflow-hidden">
-        <div className="absolute inset-0 bg-spotlight" />
-        <div className="absolute inset-0 film-grain" />
-        <div className="absolute inset-0 moroccan-pattern opacity-20" />
-
-        {/* Animated film reels */}
-        <div className="absolute top-10 left-10 w-32 h-32 border-4 border-[var(--color-gold)]/20 rounded-full animate-spin" style={{ animationDuration: '20s' }} />
-        <div className="absolute bottom-10 right-10 w-24 h-24 border-4 border-[var(--color-crimson)]/20 rounded-full animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }} />
+      <section ref={heroRef} className="relative min-h-[60vh] flex items-center overflow-hidden">
+        {/* Hero Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/Hero/cinema-hero.svg"
+            alt="Cinema Hero"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[var(--color-black-rich)]" />
+        </div>
+        <div className="absolute inset-0 film-grain opacity-30" />
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -258,7 +263,7 @@ export default function CinemaPage() {
             {/* Filter Buttons */}
             <div className={cn('flex items-center gap-2', isArabic && 'flex-row-reverse')}>
               <Filter className="w-5 h-5 text-[var(--color-gray-light)]" />
-              {(['all', 'upcoming', 'memory'] as const).map((f) => (
+              {(['all', 'upcoming'] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
@@ -272,7 +277,6 @@ export default function CinemaPage() {
                 >
                   {f === 'all' && (isArabic ? 'الكل' : 'Tous')}
                   {f === 'upcoming' && (isArabic ? 'القادمة' : 'A venir')}
-                  {f === 'memory' && (isArabic ? 'سينما الذاكرة' : 'Cinema Memoire')}
                 </button>
               ))}
             </div>
@@ -289,27 +293,8 @@ export default function CinemaPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className={cn(
-                    'group card-cinematic overflow-hidden',
-                    screening.isOpening && 'ring-2 ring-[var(--color-gold)] ring-offset-2 ring-offset-[var(--color-black-soft)]'
-                  )}
+                  className="group card-cinematic overflow-hidden"
                 >
-                  {/* Badges */}
-                  <div className={cn('absolute top-4 z-20 flex flex-col gap-2', isArabic ? 'right-4' : 'left-4')}>
-                    {screening.isOpening && (
-                      <span className="px-3 py-1 bg-gradient-to-r from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded text-xs font-bold text-[var(--color-black-rich)] flex items-center gap-1">
-                        <Star className="w-3 h-3" />
-                        {t.cinema.openingEvent}
-                      </span>
-                    )}
-                    {screening.isMemoryCinema && (
-                      <span className="px-3 py-1 bg-[var(--color-teal)] rounded text-xs font-bold text-white flex items-center gap-1">
-                        <BookOpen className="w-3 h-3" />
-                        {t.cinema.memorycinema}
-                      </span>
-                    )}
-                  </div>
-
                   {/* Poster */}
                   <div className="relative h-64 bg-gradient-to-br from-[var(--color-crimson)] via-[var(--color-curtain)] to-[var(--color-black-pure)] overflow-hidden">
                     <div className="absolute inset-0 flex items-center justify-center">
