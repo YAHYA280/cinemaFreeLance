@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Film, Languages } from 'lucide-react';
+import { Menu, X, Languages } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
 
@@ -50,11 +51,17 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-                className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--color-crimson)] to-[var(--color-red-primary)] flex items-center justify-center"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-14 h-14 sm:w-16 sm:h-16"
               >
-                <Film className="w-6 h-6 text-[var(--color-gold)]" />
+                <Image
+                  src="/Logo/al-karama-logo.svg"
+                  alt="Al-Karama Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </motion.div>
               <div className={cn('hidden sm:block', isArabic && 'font-arabic')}>
                 <h1 className="text-lg font-bold text-[var(--color-gold)]">

@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
-import { Building2, GraduationCap, Film, Landmark, Handshake, Quote } from 'lucide-react';
+import { Landmark, Handshake, Quote } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
 
@@ -13,7 +14,7 @@ const partners = [
     nameFr: 'Ministere de la Culture, de la Jeunesse et de la Communication',
     descAr: 'شريك استراتيجي في دعم الفعاليات الثقافية والمهرجانات',
     descFr: 'Partenaire strategique dans le soutien des evenements culturels et festivals',
-    icon: Building2,
+    logo: '/Logo/ministry-culture-logo.png',
     color: 'var(--color-crimson)',
     tier: 'strategic',
   },
@@ -23,7 +24,7 @@ const partners = [
     nameFr: 'Ministere de l\'Education Nationale',
     descAr: 'شراكة في إطار برنامج الأندية المدرسية والتربية على الصورة',
     descFr: 'Partenariat dans le cadre du programme des clubs scolaires et d\'education a l\'image',
-    icon: GraduationCap,
+    logo: '/Logo/ministry-education-logo.png',
     color: 'var(--color-gold)',
     tier: 'strategic',
   },
@@ -33,7 +34,7 @@ const partners = [
     nameFr: 'Centre Cinematographique Marocain (CCM)',
     descAr: 'دعم تقني وفني للعروض السينمائية وبرامج التكوين',
     descFr: 'Soutien technique et artistique pour les projections et programmes de formation',
-    icon: Film,
+    logo: '/Logo/ccm-logo.png',
     color: 'var(--color-teal)',
     tier: 'strategic',
   },
@@ -43,6 +44,7 @@ const partners = [
     nameFr: 'Prefecture de Sidi Bernoussi',
     descAr: 'دعم لوجستي ومؤسساتي للأنشطة المحلية',
     descFr: 'Soutien logistique et institutionnel pour les activites locales',
+    logo: null, // No logo provided
     icon: Landmark,
     color: 'var(--color-terracotta)',
     tier: 'institutional',
@@ -53,7 +55,7 @@ const partners = [
     nameFr: 'Maison des Jeunes Sidi Bernoussi',
     descAr: 'مقر الجمعية وشريك في تنظيم الفعاليات',
     descFr: 'Siege de l\'association et partenaire dans l\'organisation des evenements',
-    icon: Building2,
+    logo: '/Logo/dar-chabab-logo.jpg',
     color: 'var(--color-gold-dark)',
     tier: 'institutional',
   },
@@ -158,11 +160,16 @@ export default function PartnersPage() {
                   isArabic && 'font-arabic'
                 )}
               >
-                <div
-                  className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
-                  style={{ backgroundColor: `${partner.color}20` }}
-                >
-                  <partner.icon className="w-10 h-10" style={{ color: partner.color }} />
+                <div className="w-36 h-36 mx-auto mb-6 rounded-xl bg-white flex items-center justify-center p-4 shadow-lg shadow-black/20 transition-transform group-hover:scale-105">
+                  {partner.logo && (
+                    <Image
+                      src={partner.logo}
+                      alt={isArabic ? partner.nameAr : partner.nameFr}
+                      width={120}
+                      height={120}
+                      className="object-contain w-full h-full"
+                    />
+                  )}
                 </div>
 
                 <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[var(--color-gold)] transition-colors">
@@ -205,10 +212,19 @@ export default function PartnersPage() {
                 )}
               >
                 <div
-                  className="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
-                  style={{ backgroundColor: `${partner.color}20` }}
+                  className="flex-shrink-0 w-16 h-16 rounded-lg bg-white/95 flex items-center justify-center p-2 transition-transform group-hover:scale-110 overflow-hidden"
                 >
-                  <partner.icon className="w-8 h-8" style={{ color: partner.color }} />
+                  {partner.logo ? (
+                    <Image
+                      src={partner.logo}
+                      alt={isArabic ? partner.nameAr : partner.nameFr}
+                      width={56}
+                      height={56}
+                      className="object-contain w-full h-full"
+                    />
+                  ) : partner.icon ? (
+                    <partner.icon className="w-8 h-8" style={{ color: partner.color }} />
+                  ) : null}
                 </div>
 
                 <div className={cn(isArabic && 'text-right')}>

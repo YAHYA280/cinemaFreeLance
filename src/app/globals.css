@@ -100,6 +100,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide Scrollbar Utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* RTL Support */
 [dir="rtl"] {
   font-family: var(--font-arabic);
@@ -416,6 +426,33 @@ body {
   100% {
     transform: translateY(-100%);
   }
+}
+
+/* Film Strip Infinite Scroll Animations */
+@keyframes film-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes sprocket-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-film-scroll {
+  animation: film-scroll 40s linear infinite;
+}
+
+.animate-sprocket-scroll {
+  animation: sprocket-scroll 20s linear infinite;
 }
 
 .animate-fade-in-up {

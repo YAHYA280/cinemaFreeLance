@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Film, Mail, Phone, MapPin, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
 
@@ -37,8 +38,13 @@ export default function Footer() {
             {/* Logo & About */}
             <div className={cn('space-y-6', isArabic && 'text-right')}>
               <Link href="/" className="inline-flex items-center gap-3">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[var(--color-crimson)] to-[var(--color-red-primary)] flex items-center justify-center">
-                  <Film className="w-7 h-7 text-[var(--color-gold)]" />
+                <div className="relative w-16 h-16">
+                  <Image
+                    src="/Logo/al-karama-logo.svg"
+                    alt="Al-Karama Logo"
+                    fill
+                    className="object-contain"
+                  />
                 </div>
                 <div className={cn(isArabic && 'font-arabic')}>
                   <h3 className="text-xl font-bold text-[var(--color-gold)]">
