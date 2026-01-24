@@ -6,18 +6,18 @@ export const translations = {
       about: "عن الجمعية",
       theatre: "قطب المسرح",
       cinema: "قطب السينما",
-      training: "التكوين والتربية",
+      schoolClubs: "النوادي السينمائية المدرسية",
       media: "المركز الإعلامي",
       partners: "شركاؤنا",
       contact: "اتصل بنا",
-      joinClub: "انخرط في النادي",
+      joinClub: "تسجيل في النادي",
     },
 
     // Hero Section
     hero: {
       title: "جمعية الكرامة للمسرح والسينما",
       subtitle: "الكرامة.. جسر بين سحر الخشبة وعمق الشاشة",
-      cta1: "انخرط في النادي السينمائي",
+      cta1: "سجل في النادي السينمائي",
       cta2: "اكتشف برنامجنا",
       scrollDown: "اكتشف المزيد",
     },
@@ -53,12 +53,12 @@ export const translations = {
 
     // Theatre Section
     theatre: {
-      title: "قطب المسرح",
+      title: "فرقة الكرامة",
       productions: "الإنتاجات المسرحية",
       school: "مدرسة المسرح",
       festivals: "مهرجانات ومشاركات",
       troupe: "فرقة الكرامة",
-      troupeDesc: "فرقة مسرحية متخصصة في الأعمال الدرامية والكوميدية",
+      troupeDesc: "فرقة مسرحية متخصصة في صناعة الفرجة",
       workshops: "ورشات التمثيل والارتجال",
       register: "سجل الآن",
     },
@@ -69,8 +69,8 @@ export const translations = {
       clubTitle: "نادي البرنوصي السينمائي",
       clubSubtitle: "افتتاح نادي البرنوصي السينمائي",
       clubDesc: "فضاء للحوار والنقاش حول الفن السابع",
-      program: "برنامج العروض",
-      masterclass: "ماستر كلاس",
+      program: "برنامج الأفلام المقترحة",
+      masterclass: "ماستر كلاس (تكوين المكونين)",
       memorycinema: "سينما الذاكرة",
       upcomingScreenings: "العروض القادمة",
       pastScreenings: "العروض السابقة",
@@ -82,17 +82,37 @@ export const translations = {
       screeningDate: "تاريخ العرض",
       screeningTime: "الوقت",
       venue: "المكان",
+      youthTraining: "تكوين الشباب",
+      youthTrainingSubtitle: "داخل المؤسسات التعليمية",
+      trainingPrograms: "برامج تكوينية",
+      trainingProgramsDesc: "تدريب الشباب على فنون السينما داخل المدارس",
+      practicalWorkshops: "ورشات عملية",
+      practicalWorkshopsDesc: "ورشات في السيناريو والتصوير والمونتاج",
+      studentProjects: "مشاريع الطلاب",
+      studentProjectsDesc: "عرض أعمال الطلاب في المهرجانات",
     },
 
-    // Training Section
+    // Club Address
+    clubAddress: {
+      line1: "دار الشباب سيدي البرنوصي",
+      line2: "شارع أبي ذر الغفاري",
+      line3: "سيدي البرنوصي - البيضاء",
+    },
+
+    // Training Section (now School Clubs)
     training: {
-      title: "التكوين والتربية",
+      title: "النوادي السينمائية المدرسية",
       trainers: "تكوين المكونين",
       professions: "مهن السينما",
       schoolClubs: "الأندية المدرسية",
       ageRange: "للشباب من 16 إلى 30 سنة",
       curriculum: "المنهج الدراسي",
       apply: "قدم طلبك",
+      howToCreate: "كيفية إنشاء نادي سينمائي",
+      requirements: "المتطلبات والموارد",
+      partnerSchools: "المدارس الشريكة",
+      teacherResources: "موارد للمعلمين",
+      registerSchool: "سجل مدرستك",
     },
 
     // Media Center
@@ -103,14 +123,37 @@ export const translations = {
       videos: "فيديو",
       pressCoverage: "التغطية الإعلامية",
       viewAll: "عرض الكل",
+      printPress: "الجرائد الورقية",
+      printPressDesc: "التغطيات الصحفية المطبوعة",
+      onlinePress: "الجرائد الإلكترونية",
+      onlinePressDesc: "المقالات والأخبار الرقمية",
+      tvChannels: "القنوات التلفزيونية",
+      tvChannelsDesc: "التقارير والمقابلات التلفزيونية",
+    },
+
+    // Homepage Media Coverage
+    mediaCoverage: {
+      title: "التغطية الإعلامية",
+      news1Title: "افتتاح نادي البرنوصي السينمائي",
+      news1Content: "احتضنت مقاطعات سيدي البرنوصي بقاعة العروض حفل افتتاح نادي البرنوصي السينمائي بحضور نخبة من الفنانين والمثقفين...",
+      news2Title: "إطلاق برنامج تكويني شامل",
+      news2Content: "أعلنت جمعية الكرامة للمسرح والسينما عن إطلاق برنامج تكويني شامل يستهدف الأطر التربوية والشباب الراغبين في دخول عالم السينما...",
+      readMore: "اقرأ المزيد",
+    },
+
+    // About Preview (Homepage)
+    aboutPreview: {
+      title: "من نحن",
+      content: "جمعية الكرامة للمسرح والسينما، تأسست عام 2017 بسيدي البرنوصي، تهدف إلى نشر الثقافة السينمائية والمسرحية وتكوين الشباب في الفنون السمعية البصرية.",
+      learnMore: "اعرف المزيد",
     },
 
     // Partners
     partners: {
       title: "شركاؤنا",
       subtitle: "نفتخر بشراكاتنا مع المؤسسات الرائدة",
-      ministryOfCulture: "وزارة الثقافة والشباب والتواصل",
-      ministryOfEducation: "وزارة التربية الوطنية",
+      ministryOfCulture: "المديرية الإقليمية لوزارة الثقافة - قطاع الشباب",
+      ministryOfEducation: "المديرية الإقليمية لوزارة التربية الوطنية",
       ccm: "المركز السينمائي المغربي",
       localAuthorities: "السلطات المحلية",
     },
@@ -185,11 +228,11 @@ export const translations = {
       about: "A propos",
       theatre: "Pole Theatre",
       cinema: "Pole Cinema",
-      training: "Formation",
+      schoolClubs: "Clubs Cinema Scolaires",
       media: "Mediatheque",
       partners: "Partenaires",
       contact: "Contact",
-      joinClub: "Rejoindre le Club",
+      joinClub: "S'inscrire au club",
     },
 
     // Hero Section
@@ -197,7 +240,7 @@ export const translations = {
       title: "Association Al-Karama pour le Theatre et le Cinema",
       subtitle:
         "Al-Karama... Un pont entre la magie de la scene et la profondeur de l'ecran",
-      cta1: "Rejoindre le Cine-Club",
+      cta1: "S'inscrire au Cine-Club",
       cta2: "Decouvrir notre Programme",
       scrollDown: "Decouvrir plus",
     },
@@ -233,13 +276,13 @@ export const translations = {
 
     // Theatre Section
     theatre: {
-      title: "Pole Theatre",
+      title: "Troupe Al-Karama",
       productions: "Productions Theatrales",
       school: "Ecole de Theatre",
       festivals: "Festivals et Participations",
       troupe: "Troupe Al-Karama",
       troupeDesc:
-        "Troupe theatrale specialisee dans les oeuvres dramatiques et comediques",
+        "Troupe theatrale specialisee dans la creation de spectacles",
       workshops: "Ateliers d'interpretation et d'improvisation",
       register: "Inscrivez-vous",
     },
@@ -250,30 +293,50 @@ export const translations = {
       clubTitle: "Cine-Club Bernoussi",
       clubSubtitle: "Inauguration du Cine-Club Bernoussi",
       clubDesc: "Un espace de dialogue et de discussion sur le 7eme art",
-      program: "Programme des Projections",
-      masterclass: "Master Classes",
+      program: "Programme des films proposes",
+      masterclass: "Master Class (Formation des Formateurs)",
       memorycinema: "Cinema de la Memoire",
       upcomingScreenings: "Projections a venir",
       pastScreenings: "Projections passees",
       registerAttendance: "Confirmer votre presence",
-      openingEvent: "Evenement d'inauguratidn",
+      openingEvent: "Evenement d'inauguration",
       openingFilm: "Film Bamo",
       discussionWith: "Discussion avec",
       director: "Realisateur",
       screeningDate: "Date de projection",
       screeningTime: "Heure",
       venue: "Lieu",
+      youthTraining: "Formation des jeunes",
+      youthTrainingSubtitle: "Dans les etablissements scolaires",
+      trainingPrograms: "Programmes de formation",
+      trainingProgramsDesc: "Former les jeunes aux arts cinematographiques dans les ecoles",
+      practicalWorkshops: "Ateliers pratiques",
+      practicalWorkshopsDesc: "Ateliers de scenario, tournage et montage",
+      studentProjects: "Projets etudiants",
+      studentProjectsDesc: "Presentation des travaux des etudiants dans les festivals",
     },
 
-    // Training Section
+    // Club Address
+    clubAddress: {
+      line1: "Maison des Jeunes Sidi Bernoussi",
+      line2: "Avenue Abou Dhar Al Ghifari",
+      line3: "Sidi Bernoussi - Casablanca",
+    },
+
+    // Training Section (now School Clubs)
     training: {
-      title: "Formation et Education",
+      title: "Clubs Cinema Scolaires",
       trainers: "Formation des Formateurs",
       professions: "Metiers du Cinema",
       schoolClubs: "Clubs Scolaires",
       ageRange: "Pour les jeunes de 16 a 30 ans",
       curriculum: "Programme",
       apply: "Postuler",
+      howToCreate: "Comment creer un cine-club",
+      requirements: "Exigences et ressources",
+      partnerSchools: "Ecoles partenaires",
+      teacherResources: "Ressources pour enseignants",
+      registerSchool: "Inscrire votre ecole",
     },
 
     // Media Center
@@ -284,6 +347,29 @@ export const translations = {
       videos: "Videos",
       pressCoverage: "Couverture Mediatique",
       viewAll: "Voir tout",
+      printPress: "Presse ecrite",
+      printPressDesc: "Couvertures de presse imprimee",
+      onlinePress: "Presse en ligne",
+      onlinePressDesc: "Articles et actualites numeriques",
+      tvChannels: "Chaines TV",
+      tvChannelsDesc: "Reportages et interviews televisees",
+    },
+
+    // Homepage Media Coverage
+    mediaCoverage: {
+      title: "Couverture Mediatique",
+      news1Title: "Inauguration du Cine-Club Bernoussi",
+      news1Content: "Les arrondissements de Sidi Bernoussi ont accueilli dans la salle des spectacles la ceremonie d'inauguration du Cine-Club Bernoussi en presence d'artistes et d'intellectuels...",
+      news2Title: "Lancement d'un programme de formation complet",
+      news2Content: "L'association Al-Karama pour le Theatre et le Cinema a annonce le lancement d'un programme de formation complet destine aux cadres educatifs et aux jeunes souhaitant entrer dans le monde du cinema...",
+      readMore: "Lire la suite",
+    },
+
+    // About Preview (Homepage)
+    aboutPreview: {
+      title: "Qui sommes-nous",
+      content: "L'association Al-Karama pour le Theatre et le Cinema, fondee en 2017 a Sidi Bernoussi, vise a diffuser la culture cinematographique et theatrale et a former les jeunes aux arts audiovisuels.",
+      learnMore: "En savoir plus",
     },
 
     // Partners
@@ -292,8 +378,8 @@ export const translations = {
       subtitle:
         "Fiers de nos partenariats avec des institutions de premier plan",
       ministryOfCulture:
-        "Ministere de la Culture, de la Jeunesse et de la Communication",
-      ministryOfEducation: "Ministere de l'Education Nationale",
+        "Direction Provinciale du Ministere de la Culture - Secteur Jeunesse",
+      ministryOfEducation: "Direction Provinciale du Ministere de l'Education Nationale",
       ccm: "Centre Cinematographique Marocain",
       localAuthorities: "Autorites Locales",
     },

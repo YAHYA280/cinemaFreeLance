@@ -26,7 +26,7 @@ export default function Header() {
     { href: '/about', label: t.nav.about },
     { href: '/theatre', label: t.nav.theatre },
     { href: '/cinema', label: t.nav.cinema },
-    { href: '/training', label: t.nav.training },
+    { href: '/school-clubs', label: t.nav.schoolClubs },
     { href: '/media', label: t.nav.media },
     { href: '/partners', label: t.nav.partners },
     { href: '/contact', label: t.nav.contact },

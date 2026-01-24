@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils';
 const partners = [
   {
     id: 1,
-    nameAr: 'وزارة الثقافة والشباب والتواصل',
-    nameFr: 'Ministere de la Culture, de la Jeunesse et de la Communication',
+    nameAr: 'المديرية الإقليمية لوزارة الثقافة - قطاع الشباب',
+    nameFr: 'Direction Provinciale du Ministere de la Culture - Secteur Jeunesse',
     descAr: 'شريك استراتيجي في دعم الفعاليات الثقافية والمهرجانات',
     descFr: 'Partenaire strategique dans le soutien des evenements culturels et festivals',
     logo: '/Logo/ministry-culture-logo.png',
@@ -20,8 +20,8 @@ const partners = [
   },
   {
     id: 2,
-    nameAr: 'وزارة التربية الوطنية',
-    nameFr: 'Ministere de l\'Education Nationale',
+    nameAr: 'المديرية الإقليمية لوزارة التربية الوطنية',
+    nameFr: 'Direction Provinciale du Ministere de l\'Education Nationale',
     descAr: 'شراكة في إطار برنامج الأندية المدرسية والتربية على الصورة',
     descFr: 'Partenariat dans le cadre du programme des clubs scolaires et d\'education a l\'image',
     logo: '/Logo/ministry-education-logo.png',

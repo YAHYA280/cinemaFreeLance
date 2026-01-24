@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Film, Calendar, Clock, MapPin, Users, Star, Play,
-  ChevronLeft, ChevronRight, Filter, Video
+  ChevronLeft, ChevronRight, Filter, Video, GraduationCap, Award
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
@@ -418,6 +418,102 @@ export default function CinemaPage() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Youth Training Section */}
+      <section className="py-20 bg-[var(--color-black-soft)]">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className={cn('text-center mb-12', isArabic && 'font-arabic')}
+          >
+            <h2 className={cn(
+              'text-3xl md:text-4xl font-bold mb-2',
+              isArabic ? 'text-gradient-gold' : 'heading-display text-white'
+            )}>
+              {t.cinema.youthTraining}
+            </h2>
+            <p className="text-xl text-[var(--color-gold)]">
+              {t.cinema.youthTrainingSubtitle}
+            </p>
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent to-[var(--color-gold)]" />
+              <GraduationCap className="w-6 h-6 text-[var(--color-gold)]" />
+              <div className="w-16 h-px bg-gradient-to-l from-transparent to-[var(--color-gold)]" />
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Training Programs Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className={cn(
+                'p-8 rounded-lg glass border border-[var(--color-gold)]/10 hover:border-[var(--color-gold)]/30 text-center transition-all',
+                isArabic && 'font-arabic'
+              )}
+            >
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-crimson)]/20 flex items-center justify-center">
+                <GraduationCap className="w-8 h-8 text-[var(--color-crimson)]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">
+                {t.cinema.trainingPrograms}
+              </h3>
+              <p className="text-[var(--color-silver)]">
+                {t.cinema.trainingProgramsDesc}
+              </p>
+            </motion.div>
+
+            {/* Practical Workshops Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className={cn(
+                'p-8 rounded-lg glass border border-[var(--color-gold)]/10 hover:border-[var(--color-gold)]/30 text-center transition-all',
+                isArabic && 'font-arabic'
+              )}
+            >
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-gold)]/20 flex items-center justify-center">
+                <Film className="w-8 h-8 text-[var(--color-gold)]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">
+                {t.cinema.practicalWorkshops}
+              </h3>
+              <p className="text-[var(--color-silver)]">
+                {t.cinema.practicalWorkshopsDesc}
+              </p>
+            </motion.div>
+
+            {/* Student Projects Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className={cn(
+                'p-8 rounded-lg glass border border-[var(--color-gold)]/10 hover:border-[var(--color-gold)]/30 text-center transition-all',
+                isArabic && 'font-arabic'
+              )}
+            >
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-teal)]/20 flex items-center justify-center">
+                <Award className="w-8 h-8 text-[var(--color-teal)]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">
+                {t.cinema.studentProjects}
+              </h3>
+              <p className="text-[var(--color-silver)]">
+                {t.cinema.studentProjectsDesc}
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>

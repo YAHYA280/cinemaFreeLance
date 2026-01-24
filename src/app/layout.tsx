@@ -3,7 +3,6 @@ import './globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import StickyRegisterButton from '@/components/layout/StickyRegisterButton';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -92,7 +91,6 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <StickyRegisterButton />
         </LanguageProvider>
       </body>
     </html>

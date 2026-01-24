@@ -123,6 +123,24 @@ export default function ContactPage() {
                 {isArabic ? 'معلومات الاتصال' : 'Informations de Contact'}
               </h2>
 
+              {/* Cinema Club Address Box */}
+              <div className={cn(
+                'mb-8 p-6 rounded-lg bg-[var(--color-charcoal)]/50',
+                isArabic ? 'border-r-4 border-[var(--color-crimson)]' : 'border-l-4 border-[var(--color-crimson)]'
+              )}>
+                <div className={cn('flex items-start gap-4', isArabic && 'flex-row-reverse')}>
+                  <MapPin className="w-6 h-6 text-[var(--color-gray-light)] mt-1 flex-shrink-0" />
+                  <div className={cn('text-[var(--color-gray-light)]', isArabic && 'text-right font-arabic')}>
+                    <p className="font-medium text-white mb-2">
+                      {isArabic ? 'عنوان النادي السينمائي' : 'Adresse du Cine-Club'}
+                    </p>
+                    <p>{t.clubAddress.line1}</p>
+                    <p>{t.clubAddress.line2}</p>
+                    <p>{t.clubAddress.line3}</p>
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-6 mb-12">
                 {/* Address */}
                 <div className={cn('flex items-start gap-4', isArabic && 'flex-row-reverse')}>

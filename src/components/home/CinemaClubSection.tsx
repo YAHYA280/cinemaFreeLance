@@ -97,9 +97,22 @@ export default function CinemaClubSection() {
             {t.cinema.clubTitle}
           </h2>
 
-          <p className="text-xl text-[var(--color-silver)] max-w-2xl mx-auto">
+          <p className="text-xl text-[var(--color-silver)] max-w-2xl mx-auto mb-6">
             {t.cinema.clubDesc}
           </p>
+
+          {/* Club Address */}
+          <div className={cn(
+            'inline-flex items-start gap-3 px-6 py-4 rounded-lg bg-[var(--color-charcoal)]/50',
+            isArabic ? 'flex-row-reverse border-r-4 border-[var(--color-crimson)]' : 'border-l-4 border-[var(--color-crimson)]'
+          )}>
+            <MapPin className="w-5 h-5 text-[var(--color-gray-light)] mt-1 flex-shrink-0" />
+            <div className={cn('text-[var(--color-gray-light)] text-base', isArabic && 'text-right')}>
+              <p>{t.clubAddress.line1}</p>
+              <p>{t.clubAddress.line2}</p>
+              <p>{t.clubAddress.line3}</p>
+            </div>
+          </div>
 
           {/* Decorative divider */}
           <div className="flex items-center justify-center gap-4 mt-8">

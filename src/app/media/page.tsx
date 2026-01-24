@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Newspaper, Image as ImageIcon, Video, ExternalLink, Calendar,
-  Play, Grid, List, X, ChevronLeft, ChevronRight
+  Play, Grid, List, X, ChevronLeft, ChevronRight, Globe, Tv
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
@@ -87,12 +87,12 @@ const videos = [
   },
 ];
 
-type TabType = 'news' | 'gallery' | 'videos';
+type TabType = 'print' | 'online' | 'tv';
 type GalleryFilter = 'all' | 'cinema' | 'theatre' | 'training';
 
 export default function MediaPage() {
   const { t, isArabic } = useLanguage();
-  const [activeTab, setActiveTab] = useState<TabType>('news');
+  const [activeTab, setActiveTab] = useState<TabType>('print');
   const [galleryFilter, setGalleryFilter] = useState<GalleryFilter>('all');
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -108,9 +108,9 @@ export default function MediaPage() {
   );
 
   const tabs = [
-    { id: 'news' as const, icon: Newspaper, labelAr: 'أخبار', labelFr: 'Actualites' },
-    { id: 'gallery' as const, icon: ImageIcon, labelAr: 'معرض الصور', labelFr: 'Galerie Photos' },
-    { id: 'videos' as const, icon: Video, labelAr: 'فيديو', labelFr: 'Videos' },
+    { id: 'print' as const, icon: Newspaper, labelAr: t.media.printPress, labelFr: 'Presse ecrite' },
+    { id: 'online' as const, icon: Globe, labelAr: t.media.onlinePress, labelFr: 'Presse en ligne' },
+    { id: 'tv' as const, icon: Tv, labelAr: t.media.tvChannels, labelFr: 'Chaines TV' },
   ];
 
   const galleryFilters = [
@@ -179,17 +179,20 @@ export default function MediaPage() {
       <section ref={contentRef} className="py-16 bg-[var(--color-black-soft)]">
         <div className="container mx-auto px-4">
           <AnimatePresence mode="wait">
-            {/* News Tab */}
-            {activeTab === 'news' && (
+            {/* Print Press Tab */}
+            {activeTab === 'print' && (
               <motion.div
-                key="news"
+                key="print"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
+                <p className={cn('text-center text-[var(--color-silver)] mb-8', isArabic && 'font-arabic')}>
+                  {isArabic ? t.media.printPressDesc : 'Couvertures de presse imprimee'}
+                </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {newsArticles.map((article, index) => (
+                  {newsArticles.filter(a => a.source !== 'Hespress').map((article, index) => (
                     <motion.article
                       key={article.id}
                       initial={{ opacity: 0, y: 30 }}
@@ -197,7 +200,6 @@ export default function MediaPage() {
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                       className="group card-cinematic overflow-hidden"
                     >
-                      {/* Image placeholder */}
                       <div className="relative h-48 bg-gradient-to-br from-[var(--color-curtain)] to-[var(--color-black-pure)]">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Newspaper className="w-16 h-16 text-[var(--color-gold)]/20" />
@@ -209,33 +211,66 @@ export default function MediaPage() {
                           {article.source}
                         </div>
                       </div>
-
                       <div className={cn('p-6', isArabic && 'text-right')}>
                         <div className={cn('flex items-center gap-3 mb-3', isArabic && 'flex-row-reverse')}>
-                          <span className="px-2 py-1 text-xs rounded bg-[var(--color-crimson)]/20 text-[var(--color-crimson)]">
-                            {isArabic ? article.category.ar : article.category.fr}
-                          </span>
                           <div className={cn('flex items-center gap-2 text-sm text-[var(--color-gray-light)]', isArabic && 'flex-row-reverse')}>
                             <Calendar className="w-4 h-4" />
                             <span>{new Date(article.date).toLocaleDateString(isArabic ? 'ar-MA' : 'fr-FR')}</span>
                           </div>
                         </div>
-
-                        <h3 className={cn(
-                          'text-xl font-bold text-white mb-3 group-hover:text-[var(--color-gold)] transition-colors',
-                          isArabic && 'font-arabic'
-                        )}>
+                        <h3 className={cn('text-xl font-bold text-white mb-3 group-hover:text-[var(--color-gold)] transition-colors', isArabic && 'font-arabic')}>
                           {isArabic ? article.titleAr : article.titleFr}
                         </h3>
-
                         <p className={cn('text-[var(--color-silver)] text-sm leading-relaxed mb-4 line-clamp-3', isArabic && 'font-arabic')}>
                           {isArabic ? article.excerptAr : article.excerptFr}
                         </p>
+                      </div>
+                    </motion.article>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
-                        <button className={cn(
-                          'inline-flex items-center gap-2 text-[var(--color-gold)] hover:text-[var(--color-gold-bright)] text-sm',
-                          isArabic && 'flex-row-reverse font-arabic'
+            {/* Online Press Tab */}
+            {activeTab === 'online' && (
+              <motion.div
+                key="online"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className={cn('text-center text-[var(--color-silver)] mb-8', isArabic && 'font-arabic')}>
+                  {isArabic ? t.media.onlinePressDesc : 'Articles et actualites numeriques'}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {newsArticles.map((article, index) => (
+                    <motion.article
+                      key={article.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={isContentInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      className="group card-cinematic overflow-hidden"
+                    >
+                      <div className="relative h-48 bg-gradient-to-br from-[var(--color-curtain)] to-[var(--color-black-pure)]">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Globe className="w-16 h-16 text-[var(--color-gold)]/20" />
+                        </div>
+                        <div className={cn(
+                          'absolute top-4 px-3 py-1 bg-[var(--color-teal)] text-white text-xs font-bold rounded',
+                          isArabic ? 'right-4' : 'left-4'
                         )}>
+                          {article.source}
+                        </div>
+                      </div>
+                      <div className={cn('p-6', isArabic && 'text-right')}>
+                        <h3 className={cn('text-xl font-bold text-white mb-3 group-hover:text-[var(--color-gold)] transition-colors', isArabic && 'font-arabic')}>
+                          {isArabic ? article.titleAr : article.titleFr}
+                        </h3>
+                        <p className={cn('text-[var(--color-silver)] text-sm leading-relaxed mb-4 line-clamp-3', isArabic && 'font-arabic')}>
+                          {isArabic ? article.excerptAr : article.excerptFr}
+                        </p>
+                        <button className={cn('inline-flex items-center gap-2 text-[var(--color-gold)] hover:text-[var(--color-gold-bright)] text-sm', isArabic && 'flex-row-reverse font-arabic')}>
                           {t.blog.readMore}
                           <ExternalLink className="w-4 h-4" />
                         </button>
@@ -246,105 +281,18 @@ export default function MediaPage() {
               </motion.div>
             )}
 
-            {/* Gallery Tab */}
-            {activeTab === 'gallery' && (
+            {/* TV Channels Tab */}
+            {activeTab === 'tv' && (
               <motion.div
-                key="gallery"
+                key="tv"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Gallery controls */}
-                <div className={cn('flex flex-wrap items-center justify-between gap-4 mb-8', isArabic && 'flex-row-reverse')}>
-                  {/* Filters */}
-                  <div className={cn('flex items-center gap-2', isArabic && 'flex-row-reverse')}>
-                    {galleryFilters.map((filter) => (
-                      <button
-                        key={filter.id}
-                        onClick={() => setGalleryFilter(filter.id)}
-                        className={cn(
-                          'px-4 py-2 rounded text-sm transition-all',
-                          galleryFilter === filter.id
-                            ? 'bg-[var(--color-gold)] text-[var(--color-black-rich)]'
-                            : 'glass text-[var(--color-silver)] hover:text-white',
-                          isArabic && 'font-arabic'
-                        )}
-                      >
-                        {isArabic ? filter.labelAr : filter.labelFr}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* View mode */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setViewMode('grid')}
-                      className={cn(
-                        'p-2 rounded transition-colors',
-                        viewMode === 'grid' ? 'text-[var(--color-gold)]' : 'text-[var(--color-gray-light)]'
-                      )}
-                    >
-                      <Grid size={20} />
-                    </button>
-                    <button
-                      onClick={() => setViewMode('list')}
-                      className={cn(
-                        'p-2 rounded transition-colors',
-                        viewMode === 'list' ? 'text-[var(--color-gold)]' : 'text-[var(--color-gray-light)]'
-                      )}
-                    >
-                      <List size={20} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Gallery grid */}
-                <div className={cn(
-                  'grid gap-4',
-                  viewMode === 'grid' ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2'
-                )}>
-                  <AnimatePresence mode="popLayout">
-                    {filteredImages.map((image, index) => (
-                      <motion.div
-                        key={image.id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.3 }}
-                        onClick={() => setLightboxImage(index)}
-                        className={cn(
-                          'group relative cursor-pointer overflow-hidden rounded-lg',
-                          viewMode === 'grid' ? 'aspect-square' : 'aspect-video'
-                        )}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-curtain)] to-[var(--color-black-pure)]">
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <ImageIcon className="w-12 h-12 text-[var(--color-gold)]/20" />
-                          </div>
-                        </div>
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                          <span className={cn('text-white text-sm', isArabic && 'font-arabic')}>
-                            {isArabic ? image.event.ar : image.event.fr}
-                          </span>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Videos Tab */}
-            {activeTab === 'videos' && (
-              <motion.div
-                key="videos"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
+                <p className={cn('text-center text-[var(--color-silver)] mb-8', isArabic && 'font-arabic')}>
+                  {isArabic ? t.media.tvChannelsDesc : 'Reportages et interviews televisees'}
+                </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {videos.map((video, index) => (
                     <motion.div
@@ -354,24 +302,19 @@ export default function MediaPage() {
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                       className="group card-cinematic overflow-hidden"
                     >
-                      {/* Video thumbnail */}
                       <div className="relative aspect-video bg-gradient-to-br from-[var(--color-crimson)] to-[var(--color-black-pure)]">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <Video className="w-16 h-16 text-[var(--color-gold)]/20" />
+                          <Tv className="w-16 h-16 text-[var(--color-gold)]/20" />
                         </div>
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                           <div className="w-16 h-16 rounded-full bg-[var(--color-gold)] flex items-center justify-center">
                             <Play className="w-8 h-8 text-[var(--color-black-rich)]" />
                           </div>
                         </div>
-                        <div className={cn(
-                          'absolute bottom-4 px-2 py-1 bg-black/80 text-white text-xs rounded',
-                          isArabic ? 'left-4' : 'right-4'
-                        )}>
+                        <div className={cn('absolute bottom-4 px-2 py-1 bg-black/80 text-white text-xs rounded', isArabic ? 'left-4' : 'right-4')}>
                           {video.duration}
                         </div>
                       </div>
-
                       <div className={cn('p-4', isArabic && 'text-right')}>
                         <span className="text-xs text-[var(--color-crimson)]">
                           {isArabic ? video.category.ar : video.category.fr}
@@ -386,6 +329,73 @@ export default function MediaPage() {
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Photo Gallery Section */}
+      <section className="py-16 bg-[var(--color-black-rich)]">
+        <div className="container mx-auto px-4">
+          <h2 className={cn('text-2xl md:text-3xl font-bold text-center mb-8', isArabic ? 'text-gradient-gold font-arabic' : 'heading-display text-white')}>
+            {t.media.gallery}
+          </h2>
+
+          {/* Gallery controls */}
+          <div className={cn('flex flex-wrap items-center justify-between gap-4 mb-8', isArabic && 'flex-row-reverse')}>
+            <div className={cn('flex items-center gap-2', isArabic && 'flex-row-reverse')}>
+              {galleryFilters.map((filter) => (
+                <button
+                  key={filter.id}
+                  onClick={() => setGalleryFilter(filter.id)}
+                  className={cn(
+                    'px-4 py-2 rounded text-sm transition-all',
+                    galleryFilter === filter.id
+                      ? 'bg-[var(--color-gold)] text-[var(--color-black-rich)]'
+                      : 'glass text-[var(--color-silver)] hover:text-white',
+                    isArabic && 'font-arabic'
+                  )}
+                >
+                  {isArabic ? filter.labelAr : filter.labelFr}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setViewMode('grid')} className={cn('p-2 rounded transition-colors', viewMode === 'grid' ? 'text-[var(--color-gold)]' : 'text-[var(--color-gray-light)]')}>
+                <Grid size={20} />
+              </button>
+              <button onClick={() => setViewMode('list')} className={cn('p-2 rounded transition-colors', viewMode === 'list' ? 'text-[var(--color-gold)]' : 'text-[var(--color-gray-light)]')}>
+                <List size={20} />
+              </button>
+            </div>
+          </div>
+
+          {/* Gallery grid */}
+          <div className={cn('grid gap-4', viewMode === 'grid' ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2')}>
+            <AnimatePresence mode="popLayout">
+              {filteredImages.map((image, index) => (
+                <motion.div
+                  key={image.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={() => setLightboxImage(index)}
+                  className={cn('group relative cursor-pointer overflow-hidden rounded-lg', viewMode === 'grid' ? 'aspect-square' : 'aspect-video')}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-curtain)] to-[var(--color-black-pure)]">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <ImageIcon className="w-12 h-12 text-[var(--color-gold)]/20" />
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className={cn('text-white text-sm', isArabic && 'font-arabic')}>
+                      {isArabic ? image.event.ar : image.event.fr}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 
