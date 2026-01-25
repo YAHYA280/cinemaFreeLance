@@ -17,7 +17,7 @@ export const translations = {
     hero: {
       title: "جمعية الكرامة للمسرح والسينما",
       subtitle: "الكرامة.. جسر بين سحر الخشبة وعمق الشاشة",
-      cta1: "سجل في النادي السينمائي",
+      cta1: "تسجل في النادي السينمائي",
       cta2: "اكتشف برنامجنا",
       scrollDown: "اكتشف المزيد",
     },
@@ -135,16 +135,19 @@ export const translations = {
     mediaCoverage: {
       title: "التغطية الإعلامية",
       news1Title: "افتتاح نادي البرنوصي السينمائي",
-      news1Content: "احتضنت مقاطعات سيدي البرنوصي بقاعة العروض حفل افتتاح نادي البرنوصي السينمائي بحضور نخبة من الفنانين والمثقفين...",
+      news1Content:
+        "احتضنت مقاطعات سيدي البرنوصي بقاعة العروض حفل افتتاح نادي البرنوصي السينمائي بحضور نخبة من الفنانين والمثقفين...",
       news2Title: "إطلاق برنامج تكويني شامل",
-      news2Content: "أعلنت جمعية الكرامة للمسرح والسينما عن إطلاق برنامج تكويني شامل يستهدف الأطر التربوية والشباب الراغبين في دخول عالم السينما...",
+      news2Content:
+        "أعلنت جمعية الكرامة للمسرح والسينما عن إطلاق برنامج تكويني شامل يستهدف الأطر التربوية والشباب الراغبين في دخول عالم السينما...",
       readMore: "اقرأ المزيد",
     },
 
     // About Preview (Homepage)
     aboutPreview: {
       title: "من نحن",
-      content: "جمعية الكرامة للمسرح والسينما، تأسست عام 2017 بسيدي البرنوصي، تهدف إلى نشر الثقافة السينمائية والمسرحية وتكوين الشباب في الفنون السمعية البصرية.",
+      content:
+        "جمعية الكرامة للمسرح والسينما، تأسست عام 2017 بسيدي البرنوصي، تهدف إلى نشر الثقافة السينمائية والمسرحية وتكوين الشباب في الفنون السمعية البصرية.",
       learnMore: "اعرف المزيد",
     },
 
@@ -281,8 +284,7 @@ export const translations = {
       school: "Ecole de Theatre",
       festivals: "Festivals et Participations",
       troupe: "Troupe Al-Karama",
-      troupeDesc:
-        "Troupe theatrale specialisee dans la creation de spectacles",
+      troupeDesc: "Troupe theatrale specialisee dans la creation de spectacles",
       workshops: "Ateliers d'interpretation et d'improvisation",
       register: "Inscrivez-vous",
     },
@@ -309,11 +311,13 @@ export const translations = {
       youthTraining: "Formation des jeunes",
       youthTrainingSubtitle: "Dans les etablissements scolaires",
       trainingPrograms: "Programmes de formation",
-      trainingProgramsDesc: "Former les jeunes aux arts cinematographiques dans les ecoles",
+      trainingProgramsDesc:
+        "Former les jeunes aux arts cinematographiques dans les ecoles",
       practicalWorkshops: "Ateliers pratiques",
       practicalWorkshopsDesc: "Ateliers de scenario, tournage et montage",
       studentProjects: "Projets etudiants",
-      studentProjectsDesc: "Presentation des travaux des etudiants dans les festivals",
+      studentProjectsDesc:
+        "Presentation des travaux des etudiants dans les festivals",
     },
 
     // Club Address
@@ -359,16 +363,19 @@ export const translations = {
     mediaCoverage: {
       title: "Couverture Mediatique",
       news1Title: "Inauguration du Cine-Club Bernoussi",
-      news1Content: "Les arrondissements de Sidi Bernoussi ont accueilli dans la salle des spectacles la ceremonie d'inauguration du Cine-Club Bernoussi en presence d'artistes et d'intellectuels...",
+      news1Content:
+        "Les arrondissements de Sidi Bernoussi ont accueilli dans la salle des spectacles la ceremonie d'inauguration du Cine-Club Bernoussi en presence d'artistes et d'intellectuels...",
       news2Title: "Lancement d'un programme de formation complet",
-      news2Content: "L'association Al-Karama pour le Theatre et le Cinema a annonce le lancement d'un programme de formation complet destine aux cadres educatifs et aux jeunes souhaitant entrer dans le monde du cinema...",
+      news2Content:
+        "L'association Al-Karama pour le Theatre et le Cinema a annonce le lancement d'un programme de formation complet destine aux cadres educatifs et aux jeunes souhaitant entrer dans le monde du cinema...",
       readMore: "Lire la suite",
     },
 
     // About Preview (Homepage)
     aboutPreview: {
       title: "Qui sommes-nous",
-      content: "L'association Al-Karama pour le Theatre et le Cinema, fondee en 2017 a Sidi Bernoussi, vise a diffuser la culture cinematographique et theatrale et a former les jeunes aux arts audiovisuels.",
+      content:
+        "L'association Al-Karama pour le Theatre et le Cinema, fondee en 2017 a Sidi Bernoussi, vise a diffuser la culture cinematographique et theatrale et a former les jeunes aux arts audiovisuels.",
       learnMore: "En savoir plus",
     },
 
@@ -379,7 +386,8 @@ export const translations = {
         "Fiers de nos partenariats avec des institutions de premier plan",
       ministryOfCulture:
         "Direction Provinciale du Ministere de la Culture - Secteur Jeunesse",
-      ministryOfEducation: "Direction Provinciale du Ministere de l'Education Nationale",
+      ministryOfEducation:
+        "Direction Provinciale du Ministere de l'Education Nationale",
       ccm: "Centre Cinematographique Marocain",
       localAuthorities: "Autorites Locales",
     },
