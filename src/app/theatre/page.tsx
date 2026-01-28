@@ -331,13 +331,24 @@ export default function TheatrePage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative py-32 bg-curtain overflow-hidden">
-        <div className="absolute inset-0 bg-spotlight" />
-        <div className="absolute inset-0 film-grain" />
+      <section ref={heroRef} className="relative min-h-[60vh] flex items-center overflow-hidden">
+        {/* Hero Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/Hero/cinema-hero.svg"
+            alt="Theatre Hero"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[var(--color-black-rich)]" />
+        </div>
+        <div className="absolute inset-0 film-grain opacity-30" />
 
         {/* Stage curtain effect */}
-        <div className="absolute top-0 left-0 bottom-0 w-24 bg-gradient-to-r from-[var(--color-curtain-dark)] to-transparent" />
-        <div className="absolute top-0 right-0 bottom-0 w-24 bg-gradient-to-l from-[var(--color-curtain-dark)] to-transparent" />
+        <div className="absolute top-0 left-0 bottom-0 w-24 bg-gradient-to-r from-[var(--color-curtain-dark)]/50 to-transparent" />
+        <div className="absolute top-0 right-0 bottom-0 w-24 bg-gradient-to-l from-[var(--color-curtain-dark)]/50 to-transparent" />
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -346,17 +357,6 @@ export default function TheatrePage() {
             transition={{ duration: 0.8 }}
             className={cn('text-center', isArabic && 'font-arabic')}
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={isHeroInView ? { scale: 1 } : {}}
-              transition={{ duration: 0.5, type: 'spring' }}
-              className="inline-block mb-8"
-            >
-              <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-[var(--color-crimson)] to-[var(--color-red-primary)] flex items-center justify-center">
-                <Theater className="w-12 h-12 text-[var(--color-gold)]" />
-              </div>
-            </motion.div>
-
             <h1 className={cn(
               'text-5xl md:text-6xl lg:text-7xl font-bold mb-6',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
@@ -381,6 +381,88 @@ export default function TheatrePage() {
         >
           <ChevronDown className="w-8 h-8 text-[var(--color-gold)]" />
         </motion.div>
+
+        {/* Bottom decoration */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 60" fill="none" className="w-full">
+            <path d="M0 60L720 30L1440 60V60H0V60Z" fill="var(--color-charcoal)" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Collaboration Section - Theatre Mohamed V */}
+      <section className="py-6 bg-[var(--color-charcoal)] relative overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, var(--color-gold) 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }} />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            {/* Decorative line */}
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="w-20 h-px bg-gradient-to-r from-transparent to-[var(--color-gold)]" />
+              <span className={cn(
+                'text-sm text-[var(--color-gold)] uppercase tracking-[0.2em] font-medium',
+                isArabic && 'font-arabic tracking-normal'
+              )}>
+                {isArabic ? 'بالتعاون مع' : 'En collaboration avec'}
+              </span>
+              <div className="w-20 h-px bg-gradient-to-l from-transparent to-[var(--color-gold)]" />
+            </div>
+
+            {/* Logo Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="inline-block"
+            >
+              <div className="relative px-10 py-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-[var(--color-gold)]/20 backdrop-blur-sm">
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[var(--color-gold)] rounded-tl-lg" />
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[var(--color-gold)] rounded-tr-lg" />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[var(--color-gold)] rounded-bl-lg" />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[var(--color-gold)] rounded-br-lg" />
+
+                <div className="relative w-64 h-24 md:w-80 md:h-28">
+                  <Image
+                    src="/Logo/theatreMohamed5.png"
+                    alt="Theatre Mohamed V"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className={cn(
+                'mt-4 text-[var(--color-silver)] text-sm max-w-xl mx-auto',
+                isArabic && 'font-arabic'
+              )}
+            >
+              {isArabic
+                ? 'شراكة فنية لإحياء الفن المسرحي المغربي'
+                : 'Un partenariat artistique pour raviver l\'art theatral marocain'}
+            </motion.p>
+          </motion.div>
+        </div>
       </section>
 
       {/* Featured Production - الحُفرة */}

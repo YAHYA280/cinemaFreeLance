@@ -78,22 +78,6 @@ export default function HeroSection() {
         style={{ y: textY, opacity }}
         className="relative z-30 container mx-auto px-4 text-center"
       >
-        {/* Decorative stars */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex items-center justify-center gap-4 mb-8"
-        >
-          <span className="text-[var(--color-gold)] text-3xl">★</span>
-          <span className="text-[var(--color-gold)] text-2xl">★</span>
-          <span className="text-[var(--color-gold)] text-xl">★</span>
-          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent" />
-          <span className="text-[var(--color-gold)] text-xl">★</span>
-          <span className="text-[var(--color-gold)] text-2xl">★</span>
-          <span className="text-[var(--color-gold)] text-3xl">★</span>
-        </motion.div>
-
         {/* Main Title */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
