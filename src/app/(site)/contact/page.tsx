@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 const contactSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters'),
@@ -29,15 +30,16 @@ const registrationSchema = z.object({
 type ContactData = z.infer<typeof contactSchema>;
 type RegistrationData = z.infer<typeof registrationSchema>;
 
-const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Youtube, href: '#', label: 'YouTube' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-];
-
 export default function ContactPage() {
   const { t, isArabic } = useLanguage();
+  const { settings } = useSiteSettings();
+
+  const socialLinks = [
+    { icon: Facebook, href: settings.facebook_url, label: 'Facebook' },
+    { icon: Instagram, href: settings.instagram_url, label: 'Instagram' },
+    { icon: Youtube, href: settings.youtube_url, label: 'YouTube' },
+    { icon: Twitter, href: settings.twitter_url, label: 'Twitter' },
+  ];
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [registrationSubmitted, setRegistrationSubmitted] = useState(false);
 
@@ -167,7 +169,7 @@ export default function ContactPage() {
                       {t.contact.phone}
                     </h3>
                     <p className="text-[var(--color-silver)]" dir="ltr">
-                      +212 6XX XXX XXX
+                      {settings.phone}
                     </p>
                   </div>
                 </div>
@@ -182,7 +184,7 @@ export default function ContactPage() {
                       {t.contact.email}
                     </h3>
                     <p className="text-[var(--color-silver)]">
-                      contact@alkarama.ma
+                      {settings.email}
                     </p>
                   </div>
                 </div>
@@ -197,7 +199,7 @@ export default function ContactPage() {
                       {isArabic ? 'ساعات العمل' : 'Horaires'}
                     </h3>
                     <p className={cn('text-[var(--color-silver)]', isArabic && 'font-arabic')}>
-                      {isArabic ? 'الإثنين - السبت: 09:00 - 18:00' : 'Lundi - Samedi: 09h00 - 18h00'}
+                      {isArabic ? settings.hours_ar : settings.hours_fr}
                     </p>
                   </div>
                 </div>

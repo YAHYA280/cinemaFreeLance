@@ -9,82 +9,44 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import DynamicSections from '@/components/dynamic/DynamicSections';
+import { useSupabaseData } from '@/hooks/useSupabaseData';
 
-const boardMembers = [
-  {
-    nameAr: 'محمد العربي',
-    nameFr: 'Mohamed Larbi',
-    roleAr: 'الرئيس',
-    roleFr: 'President',
-  },
-  {
-    nameAr: 'فاطمة الزهراء',
-    nameFr: 'Fatima Zahra',
-    roleAr: 'نائب الرئيس',
-    roleFr: 'Vice-President',
-  },
-  {
-    nameAr: 'أحمد بنعلي',
-    nameFr: 'Ahmed Benali',
-    roleAr: 'المدير الفني',
-    roleFr: 'Directeur Artistique',
-  },
-  {
-    nameAr: 'خديجة المنصوري',
-    nameFr: 'Khadija Mansouri',
-    roleAr: 'أمين المال',
-    roleFr: 'Tresoriere',
-  },
-  {
-    nameAr: 'يوسف الإدريسي',
-    nameFr: 'Youssef Idrissi',
-    roleAr: 'مسؤول العلاقات العامة',
-    roleFr: 'Responsable Relations Publiques',
-  },
-  {
-    nameAr: 'سعاد بركات',
-    nameFr: 'Souad Barakat',
-    roleAr: 'الكاتبة العامة',
-    roleFr: 'Secretaire Generale',
-  },
+interface BoardMember {
+  id: string;
+  name_ar: string;
+  name_fr: string;
+  role_ar: string;
+  role_fr: string;
+  photo_url: string;
+  display_order: number;
+}
+
+interface TimelineEvent {
+  id: string;
+  year: string;
+  title_ar: string;
+  title_fr: string;
+  description_ar: string;
+  description_fr: string;
+  display_order: number;
+}
+
+const fallbackBoardMembers = [
+  { id: '1', name_ar: 'محمد العربي', name_fr: 'Mohamed Larbi', role_ar: 'الرئيس', role_fr: 'President', photo_url: '', display_order: 1 },
+  { id: '2', name_ar: 'فاطمة الزهراء', name_fr: 'Fatima Zahra', role_ar: 'نائب الرئيس', role_fr: 'Vice-President', photo_url: '', display_order: 2 },
+  { id: '3', name_ar: 'أحمد بنعلي', name_fr: 'Ahmed Benali', role_ar: 'المدير الفني', role_fr: 'Directeur Artistique', photo_url: '', display_order: 3 },
+  { id: '4', name_ar: 'خديجة المنصوري', name_fr: 'Khadija Mansouri', role_ar: 'أمين المال', role_fr: 'Tresoriere', photo_url: '', display_order: 4 },
+  { id: '5', name_ar: 'يوسف الإدريسي', name_fr: 'Youssef Idrissi', role_ar: 'مسؤول العلاقات العامة', role_fr: 'Responsable Relations Publiques', photo_url: '', display_order: 5 },
+  { id: '6', name_ar: 'سعاد بركات', name_fr: 'Souad Barakat', role_ar: 'الكاتبة العامة', role_fr: 'Secretaire Generale', photo_url: '', display_order: 6 },
 ];
 
-const timeline = [
-  {
-    year: '2017',
-    titleAr: 'تأسيس الجمعية',
-    titleFr: 'Fondation de l\'association',
-    descAr: 'انطلاق جمعية الكرامة للمسرح والسينما بسيدي البرنوصي',
-    descFr: 'Lancement de l\'association Al-Karama a Sidi Bernoussi',
-  },
-  {
-    year: '2018',
-    titleAr: 'أول إنتاج مسرحي',
-    titleFr: 'Premiere production theatrale',
-    descAr: 'عرض أول مسرحية من إنتاج فرقة الكرامة',
-    descFr: 'Premiere piece de theatre produite par la troupe Al-Karama',
-  },
-  {
-    year: '2020',
-    titleAr: 'إطلاق برنامج التكوين',
-    titleFr: 'Lancement du programme de formation',
-    descAr: 'بداية ورشات التكوين في فنون المسرح والسينما',
-    descFr: 'Debut des ateliers de formation aux arts du theatre et du cinema',
-  },
-  {
-    year: '2023',
-    titleAr: 'شراكة مع المركز السينمائي',
-    titleFr: 'Partenariat avec le CCM',
-    descAr: 'توقيع اتفاقية شراكة مع المركز السينمائي المغربي',
-    descFr: 'Signature d\'un accord de partenariat avec le CCM',
-  },
-  {
-    year: '2024',
-    titleAr: 'افتتاح النادي السينمائي',
-    titleFr: 'Inauguration du Cine-Club',
-    descAr: 'افتتاح نادي البرنوصي السينمائي بعرض فيلم بامو',
-    descFr: 'Inauguration du Cine-Club Bernoussi avec le film Bamo',
-  },
+const fallbackTimeline = [
+  { id: '1', year: '2017', title_ar: 'تأسيس الجمعية', title_fr: 'Fondation de l\'association', description_ar: 'انطلاق جمعية الكرامة للمسرح والسينما بسيدي البرنوصي', description_fr: 'Lancement de l\'association Al-Karama a Sidi Bernoussi', display_order: 1 },
+  { id: '2', year: '2018', title_ar: 'أول إنتاج مسرحي', title_fr: 'Premiere production theatrale', description_ar: 'عرض أول مسرحية من إنتاج فرقة الكرامة', description_fr: 'Premiere piece de theatre produite par la troupe Al-Karama', display_order: 2 },
+  { id: '3', year: '2020', title_ar: 'إطلاق برنامج التكوين', title_fr: 'Lancement du programme de formation', description_ar: 'بداية ورشات التكوين في فنون المسرح والسينما', description_fr: 'Debut des ateliers de formation aux arts du theatre et du cinema', display_order: 3 },
+  { id: '4', year: '2023', title_ar: 'شراكة مع المركز السينمائي', title_fr: 'Partenariat avec le CCM', description_ar: 'توقيع اتفاقية شراكة مع المركز السينمائي المغربي', description_fr: 'Signature d\'un accord de partenariat avec le CCM', display_order: 4 },
+  { id: '5', year: '2024', title_ar: 'افتتاح النادي السينمائي', title_fr: 'Inauguration du Cine-Club', description_ar: 'افتتاح نادي البرنوصي السينمائي بعرض فيلم بامو', description_fr: 'Inauguration du Cine-Club Bernoussi avec le film Bamo', display_order: 5 },
 ];
 
 const documents = [
@@ -107,6 +69,12 @@ const documents = [
 
 export default function AboutPage() {
   const { t, isArabic } = useLanguage();
+  const { data: dbBoard } = useSupabaseData<BoardMember>('board_members');
+  const { data: dbTimeline } = useSupabaseData<TimelineEvent>('timeline_events');
+
+  const boardMembers = dbBoard.length > 0 ? dbBoard : fallbackBoardMembers;
+  const timeline = dbTimeline.length > 0 ? dbTimeline : fallbackTimeline;
+
   const heroRef = React.useRef(null);
   const missionRef = React.useRef(null);
   const timelineRef = React.useRef(null);
@@ -297,7 +265,7 @@ export default function AboutPage() {
             <div className="space-y-12">
               {timeline.map((item, index) => (
                 <motion.div
-                  key={item.year}
+                  key={item.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -314,10 +282,10 @@ export default function AboutPage() {
                   )}>
                     <span className="text-3xl font-bold text-[var(--color-gold)]">{item.year}</span>
                     <h3 className={cn('text-xl font-bold text-white mt-2', isArabic && 'font-arabic')}>
-                      {isArabic ? item.titleAr : item.titleFr}
+                      {isArabic ? item.title_ar : item.title_fr}
                     </h3>
                     <p className={cn('text-[var(--color-silver)] mt-2', isArabic && 'font-arabic')}>
-                      {isArabic ? item.descAr : item.descFr}
+                      {isArabic ? item.description_ar : item.description_fr}
                     </p>
                   </div>
 
@@ -360,7 +328,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {boardMembers.map((member, index) => (
               <motion.div
-                key={member.nameFr}
+                key={member.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isBoardInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -370,14 +338,14 @@ export default function AboutPage() {
                 {/* Avatar placeholder */}
                 <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-[var(--color-crimson)] to-[var(--color-curtain)] flex items-center justify-center">
                   <span className="text-3xl font-bold text-[var(--color-gold)]">
-                    {(isArabic ? member.nameAr : member.nameFr).charAt(0)}
+                    {(isArabic ? member.name_ar : member.name_fr).charAt(0)}
                   </span>
                 </div>
                 <h3 className={cn('text-lg font-bold text-white', isArabic && 'font-arabic')}>
-                  {isArabic ? member.nameAr : member.nameFr}
+                  {isArabic ? member.name_ar : member.name_fr}
                 </h3>
                 <p className={cn('text-[var(--color-gold)] text-sm', isArabic && 'font-arabic')}>
-                  {isArabic ? member.roleAr : member.roleFr}
+                  {isArabic ? member.role_ar : member.role_fr}
                 </p>
               </motion.div>
             ))}
@@ -430,6 +398,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Dynamic Sections */}
+      <DynamicSections page="about" />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import MediaCoverageSection from '@/components/home/MediaCoverageSection';
 import AboutPreview from '@/components/home/AboutPreview';
 import NewsSection from '@/components/home/NewsSection';
 import PartnersSection from '@/components/home/PartnersSection';
+import DynamicSections from '@/components/dynamic/DynamicSections';
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <HeroSection />
       <AboutPreviewSection />
       <CinemaClubSection />
+      <DynamicSections page="home" />
       <MediaCoverageSection />
       <AboutPreview />
       <NewsSection />

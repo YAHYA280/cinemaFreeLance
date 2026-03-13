@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import DynamicSections from '@/components/dynamic/DynamicSections';
+import { useSupabaseData } from '@/hooks/useSupabaseData';
 
 // Film Strip Manual Scroll Component with Arrow Navigation
 const FilmStripCarousel = ({
@@ -200,67 +202,40 @@ const featuredProduction = {
   ],
 };
 
-const productions = [
-  {
-    id: 1,
-    titleAr: 'صمت الكلام',
-    titleFr: 'Le Silence des Mots',
-    year: 2023,
-    genreAr: 'دراما',
-    genreFr: 'Drame',
-    synopsisAr: 'مسرحية تتناول قضايا الصمت والتعبير في المجتمع المعاصر',
-    synopsisFr: 'Une piece qui traite les questions du silence et de l\'expression dans la societe contemporaine',
-    duration: 90,
-    cast: 8,
-  },
-  {
-    id: 2,
-    titleAr: 'ذاكرة الأجداد',
-    titleFr: 'Memoire des Ancetres',
-    year: 2022,
-    genreAr: 'تراثي',
-    genreFr: 'Patrimoine',
-    synopsisAr: 'رحلة في ذاكرة المغرب عبر حكايات الأجداد',
-    synopsisFr: 'Un voyage dans la memoire du Maroc a travers les recits des ancetres',
-    duration: 75,
-    cast: 6,
-  },
-  {
-    id: 3,
-    titleAr: 'ضحكات مرة',
-    titleFr: 'Rires Amers',
-    year: 2021,
-    genreAr: 'كوميديا سوداء',
-    genreFr: 'Comedie noire',
-    synopsisAr: 'كوميديا ساخرة تعالج قضايا اجتماعية بأسلوب فكاهي',
-    synopsisFr: 'Une comedie satirique traitant des questions sociales avec humour',
-    duration: 80,
-    cast: 5,
-  },
+interface Production {
+  id: string;
+  title_ar: string;
+  title_fr: string;
+  year: number;
+  genre_ar: string;
+  genre_fr: string;
+  synopsis_ar: string;
+  synopsis_fr: string;
+  duration: number;
+  cast_count: number;
+  display_order: number;
+}
+
+interface Festival {
+  id: string;
+  name_ar: string;
+  name_fr: string;
+  year: number;
+  award_ar: string;
+  award_fr: string;
+  display_order: number;
+}
+
+const fallbackProductions: Production[] = [
+  { id: '1', title_ar: 'صمت الكلام', title_fr: 'Le Silence des Mots', year: 2023, genre_ar: 'دراما', genre_fr: 'Drame', synopsis_ar: 'مسرحية تتناول قضايا الصمت والتعبير في المجتمع المعاصر', synopsis_fr: 'Une piece qui traite les questions du silence et de l\'expression dans la societe contemporaine', duration: 90, cast_count: 8, display_order: 1 },
+  { id: '2', title_ar: 'ذاكرة الأجداد', title_fr: 'Memoire des Ancetres', year: 2022, genre_ar: 'تراثي', genre_fr: 'Patrimoine', synopsis_ar: 'رحلة في ذاكرة المغرب عبر حكايات الأجداد', synopsis_fr: 'Un voyage dans la memoire du Maroc a travers les recits des ancetres', duration: 75, cast_count: 6, display_order: 2 },
+  { id: '3', title_ar: 'ضحكات مرة', title_fr: 'Rires Amers', year: 2021, genre_ar: 'كوميديا سوداء', genre_fr: 'Comedie noire', synopsis_ar: 'كوميديا ساخرة تعالج قضايا اجتماعية بأسلوب فكاهي', synopsis_fr: 'Une comedie satirique traitant des questions sociales avec humour', duration: 80, cast_count: 5, display_order: 3 },
 ];
 
-const festivals = [
-  {
-    nameAr: 'المهرجان الوطني للمسرح بمكناس',
-    nameFr: 'Festival National du Theatre de Meknes',
-    year: 2023,
-    awardAr: 'جائزة أفضل عرض متكامل',
-    awardFr: 'Prix du meilleur spectacle integre',
-  },
-  {
-    nameAr: 'مهرجان الدار البيضاء للمسرح',
-    nameFr: 'Festival de Theatre de Casablanca',
-    year: 2022,
-    awardAr: 'جائزة أفضل ممثل',
-    awardFr: 'Prix du meilleur acteur',
-  },
-  {
-    nameAr: 'ملتقى المسرح المغاربي',
-    nameFr: 'Rencontre du Theatre Maghrebin',
-    year: 2022,
-    awardAr: 'شهادة تقديرية',
-    awardFr: 'Certificat d\'appreciation',
-  },
+const fallbackFestivals: Festival[] = [
+  { id: '1', name_ar: 'المهرجان الوطني للمسرح بمكناس', name_fr: 'Festival National du Theatre de Meknes', year: 2023, award_ar: 'جائزة أفضل عرض متكامل', award_fr: 'Prix du meilleur spectacle integre', display_order: 1 },
+  { id: '2', name_ar: 'مهرجان الدار البيضاء للمسرح', name_fr: 'Festival de Theatre de Casablanca', year: 2022, award_ar: 'جائزة أفضل ممثل', award_fr: 'Prix du meilleur acteur', display_order: 2 },
+  { id: '3', name_ar: 'ملتقى المسرح المغاربي', name_fr: 'Rencontre du Theatre Maghrebin', year: 2022, award_ar: 'شهادة تقديرية', award_fr: 'Certificat d\'appreciation', display_order: 3 },
 ];
 
 const workshops = [
@@ -295,6 +270,12 @@ const workshops = [
 
 export default function TheatrePage() {
   const { t, isArabic } = useLanguage();
+  const { data: dbProductions } = useSupabaseData<Production>('productions');
+  const { data: dbFestivals } = useSupabaseData<Festival>('festivals');
+
+  const productions = dbProductions.length > 0 ? dbProductions : fallbackProductions;
+  const festivals = dbFestivals.length > 0 ? dbFestivals : fallbackFestivals;
+
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -816,7 +797,7 @@ export default function TheatrePage() {
                 <div className={cn('p-6', isArabic && 'text-right')}>
                   <div className={cn('flex items-center gap-2 mb-2', isArabic && 'flex-row-reverse')}>
                     <span className="px-2 py-1 text-xs rounded bg-[var(--color-crimson)]/20 text-[var(--color-crimson)]">
-                      {isArabic ? prod.genreAr : prod.genreFr}
+                      {isArabic ? prod.genre_ar : prod.genre_fr}
                     </span>
                     <span className="text-sm text-[var(--color-gray-light)]">
                       {prod.duration} min
@@ -824,16 +805,16 @@ export default function TheatrePage() {
                   </div>
 
                   <h3 className={cn('text-xl font-bold text-white mb-2', isArabic && 'font-arabic')}>
-                    {isArabic ? prod.titleAr : prod.titleFr}
+                    {isArabic ? prod.title_ar : prod.title_fr}
                   </h3>
 
                   <p className={cn('text-[var(--color-silver)] text-sm mb-4 line-clamp-2', isArabic && 'font-arabic')}>
-                    {isArabic ? prod.synopsisAr : prod.synopsisFr}
+                    {isArabic ? prod.synopsis_ar : prod.synopsis_fr}
                   </p>
 
                   <div className={cn('flex items-center gap-2 text-sm text-[var(--color-gray-light)]', isArabic && 'flex-row-reverse')}>
                     <Users className="w-4 h-4" />
-                    <span>{prod.cast} {isArabic ? 'ممثلين' : 'acteurs'}</span>
+                    <span>{prod.cast_count} {isArabic ? 'ممثلين' : 'acteurs'}</span>
                   </div>
                 </div>
               </motion.div>
@@ -939,7 +920,7 @@ export default function TheatrePage() {
           <div className="max-w-3xl mx-auto space-y-6">
             {festivals.map((festival, index) => (
               <motion.div
-                key={festival.nameFr}
+                key={festival.id}
                 initial={{ opacity: 0, x: isArabic ? 30 : -30 }}
                 animate={isFestivalsInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -956,12 +937,12 @@ export default function TheatrePage() {
                 {/* Details */}
                 <div className={cn('flex-1', isArabic && 'text-right')}>
                   <h3 className={cn('text-lg font-bold text-white mb-1', isArabic && 'font-arabic')}>
-                    {isArabic ? festival.nameAr : festival.nameFr}
+                    {isArabic ? festival.name_ar : festival.name_fr}
                   </h3>
                   <div className={cn('flex items-center gap-2 text-[var(--color-gold)]', isArabic && 'flex-row-reverse')}>
                     <Award className="w-4 h-4" />
                     <span className={cn(isArabic && 'font-arabic')}>
-                      {isArabic ? festival.awardAr : festival.awardFr}
+                      {isArabic ? festival.award_ar : festival.award_fr}
                     </span>
                   </div>
                 </div>
@@ -970,6 +951,9 @@ export default function TheatrePage() {
           </div>
         </div>
       </section>
+
+      {/* Dynamic Sections */}
+      <DynamicSections page="theatre" />
     </div>
   );
 }

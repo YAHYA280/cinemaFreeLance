@@ -9,111 +9,56 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import DynamicSections from '@/components/dynamic/DynamicSections';
+import { useSupabaseData } from '@/hooks/useSupabaseData';
 
-const screenings = [
-  {
-    id: 1,
-    titleAr: 'فيلم بامو',
-    titleFr: 'Film Bamo',
-    directorAr: 'محمد مفتكر',
-    directorFr: 'Mohamed Mouftakir',
-    year: 2023,
-    country: { ar: 'المغرب', fr: 'Maroc' },
-    genre: { ar: 'دراما', fr: 'Drame' },
-    duration: 95,
-    date: '2024-02-15',
-    time: '19:00',
-    discussionWithAr: 'حمادي كيروم',
-    discussionWithFr: 'Hamadi Kirom',
-    synopsisAr: 'قصة مؤثرة عن الهوية والانتماء في المغرب المعاصر',
-    synopsisFr: 'Une histoire touchante sur l\'identite et l\'appartenance dans le Maroc contemporain',
-    isOpening: true,
-    isPast: false,
-  },
-  {
-    id: 2,
-    titleAr: 'أيام الساورة',
-    titleFr: 'Les Jours de la Saoura',
-    directorAr: 'عبد الله فركوس',
-    directorFr: 'Abdallah Ferkous',
-    year: 2022,
-    country: { ar: 'الجزائر', fr: 'Algerie' },
-    genre: { ar: 'وثائقي', fr: 'Documentaire' },
-    duration: 88,
-    date: '2024-02-22',
-    time: '19:00',
-    discussionWithAr: 'ناقد سينمائي',
-    discussionWithFr: 'Critique de cinema',
-    synopsisAr: 'رحلة بصرية في أعماق الصحراء الجزائرية',
-    synopsisFr: 'Un voyage visuel dans les profondeurs du Sahara algerien',
-    isOpening: false,
-    isPast: false,
-  },
-  {
-    id: 3,
-    titleAr: 'البحر الأحمر يغوص',
-    titleFr: 'La Mer Rouge Plonge',
-    directorAr: 'فوزي بنسعيدي',
-    directorFr: 'Faouzi Bensaidi',
-    year: 2023,
-    country: { ar: 'المغرب', fr: 'Maroc' },
-    genre: { ar: 'تجريبي', fr: 'Experimental' },
-    duration: 102,
-    date: '2024-03-01',
-    time: '19:00',
-    discussionWithAr: 'المخرج',
-    discussionWithFr: 'Le realisateur',
-    synopsisAr: 'فيلم تجريبي يستكشف حدود السرد السينمائي',
-    synopsisFr: 'Un film experimental qui explore les limites du recit cinematographique',
-    isOpening: false,
-    isPast: false,
-  },
-  {
-    id: 4,
-    titleAr: 'وشم العار',
-    titleFr: 'Le Tatouage de la Honte',
-    directorAr: 'أحمد البوعناني',
-    directorFr: 'Ahmed Bouanani',
-    year: 1970,
-    country: { ar: 'المغرب', fr: 'Maroc' },
-    genre: { ar: 'تاريخي', fr: 'Historique' },
-    duration: 90,
-    date: '2024-03-08',
-    time: '19:00',
-    discussionWithAr: 'باحث في تاريخ السينما',
-    discussionWithFr: 'Chercheur en histoire du cinema',
-    synopsisAr: 'كلاسيكية من السينما المغربية عن المقاومة',
-    synopsisFr: 'Un classique du cinema marocain sur la resistance',
-    isOpening: false,
-    isPast: false,
-  },
+interface Screening {
+  id: string;
+  title_ar: string;
+  title_fr: string;
+  director_ar: string;
+  director_fr: string;
+  year: number;
+  country_ar: string;
+  country_fr: string;
+  genre_ar: string;
+  genre_fr: string;
+  duration: number;
+  date: string;
+  time: string;
+  discussion_with_ar: string;
+  discussion_with_fr: string;
+  synopsis_ar: string;
+  synopsis_fr: string;
+  is_opening: boolean;
+  is_past: boolean;
+  display_order: number;
+}
+
+interface Masterclass {
+  id: string;
+  title_ar: string;
+  title_fr: string;
+  guest_ar: string;
+  guest_fr: string;
+  role_ar: string;
+  role_fr: string;
+  date: string;
+  topic_ar: string;
+  topic_fr: string;
+  display_order: number;
+}
+
+const fallbackScreenings: Screening[] = [
+  { id: '1', title_ar: 'فيلم بامو', title_fr: 'Film Bamo', director_ar: 'محمد مفتكر', director_fr: 'Mohamed Mouftakir', year: 2023, country_ar: 'المغرب', country_fr: 'Maroc', genre_ar: 'دراما', genre_fr: 'Drame', duration: 95, date: '2024-02-15', time: '19:00', discussion_with_ar: 'حمادي كيروم', discussion_with_fr: 'Hamadi Kirom', synopsis_ar: 'قصة مؤثرة عن الهوية والانتماء في المغرب المعاصر', synopsis_fr: 'Une histoire touchante sur l\'identite et l\'appartenance dans le Maroc contemporain', is_opening: true, is_past: false, display_order: 1 },
+  { id: '2', title_ar: 'أيام الساورة', title_fr: 'Les Jours de la Saoura', director_ar: 'عبد الله فركوس', director_fr: 'Abdallah Ferkous', year: 2022, country_ar: 'الجزائر', country_fr: 'Algerie', genre_ar: 'وثائقي', genre_fr: 'Documentaire', duration: 88, date: '2024-02-22', time: '19:00', discussion_with_ar: 'ناقد سينمائي', discussion_with_fr: 'Critique de cinema', synopsis_ar: 'رحلة بصرية في أعماق الصحراء الجزائرية', synopsis_fr: 'Un voyage visuel dans les profondeurs du Sahara algerien', is_opening: false, is_past: false, display_order: 2 },
+  { id: '3', title_ar: 'البحر الأحمر يغوص', title_fr: 'La Mer Rouge Plonge', director_ar: 'فوزي بنسعيدي', director_fr: 'Faouzi Bensaidi', year: 2023, country_ar: 'المغرب', country_fr: 'Maroc', genre_ar: 'تجريبي', genre_fr: 'Experimental', duration: 102, date: '2024-03-01', time: '19:00', discussion_with_ar: 'المخرج', discussion_with_fr: 'Le realisateur', synopsis_ar: 'فيلم تجريبي يستكشف حدود السرد السينمائي', synopsis_fr: 'Un film experimental qui explore les limites du recit cinematographique', is_opening: false, is_past: false, display_order: 3 },
+  { id: '4', title_ar: 'وشم العار', title_fr: 'Le Tatouage de la Honte', director_ar: 'أحمد البوعناني', director_fr: 'Ahmed Bouanani', year: 1970, country_ar: 'المغرب', country_fr: 'Maroc', genre_ar: 'تاريخي', genre_fr: 'Historique', duration: 90, date: '2024-03-08', time: '19:00', discussion_with_ar: 'باحث في تاريخ السينما', discussion_with_fr: 'Chercheur en histoire du cinema', synopsis_ar: 'كلاسيكية من السينما المغربية عن المقاومة', synopsis_fr: 'Un classique du cinema marocain sur la resistance', is_opening: false, is_past: false, display_order: 4 },
 ];
 
-const masterclasses = [
-  {
-    id: 1,
-    titleAr: 'لقاء مع حمادي كيروم',
-    titleFr: 'Rencontre avec Hamadi Kirom',
-    guestAr: 'حمادي كيروم',
-    guestFr: 'Hamadi Kirom',
-    roleAr: 'ناقد سينمائي',
-    roleFr: 'Critique de cinema',
-    date: '2024-02-15',
-    topicAr: 'قراءة نقدية للسينما المغربية المعاصرة',
-    topicFr: 'Lecture critique du cinema marocain contemporain',
-  },
-  {
-    id: 2,
-    titleAr: 'ورشة كتابة السيناريو',
-    titleFr: 'Atelier d\'ecriture de scenario',
-    guestAr: 'سعيد الشرايبي',
-    guestFr: 'Said Chraibi',
-    roleAr: 'سيناريست ومخرج',
-    roleFr: 'Scenariste et realisateur',
-    date: '2024-02-29',
-    topicAr: 'أساسيات كتابة السيناريو السينمائي',
-    topicFr: 'Les bases de l\'ecriture de scenario cinematographique',
-  },
+const fallbackMasterclasses: Masterclass[] = [
+  { id: '1', title_ar: 'لقاء مع حمادي كيروم', title_fr: 'Rencontre avec Hamadi Kirom', guest_ar: 'حمادي كيروم', guest_fr: 'Hamadi Kirom', role_ar: 'ناقد سينمائي', role_fr: 'Critique de cinema', date: '2024-02-15', topic_ar: 'قراءة نقدية للسينما المغربية المعاصرة', topic_fr: 'Lecture critique du cinema marocain contemporain', display_order: 1 },
+  { id: '2', title_ar: 'ورشة كتابة السيناريو', title_fr: 'Atelier d\'ecriture de scenario', guest_ar: 'سعيد الشرايبي', guest_fr: 'Said Chraibi', role_ar: 'سيناريست ومخرج', role_fr: 'Scenariste et realisateur', date: '2024-02-29', topic_ar: 'أساسيات كتابة السيناريو السينمائي', topic_fr: 'Les bases de l\'ecriture de scenario cinematographique', display_order: 2 },
 ];
 
 const months = [
@@ -127,6 +72,12 @@ export default function CinemaPage() {
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [filter, setFilter] = useState<'all' | 'upcoming'>('all');
 
+  const { data: dbScreenings } = useSupabaseData<Screening>('screenings');
+  const { data: dbMasterclasses } = useSupabaseData<Masterclass>('masterclasses');
+
+  const screenings = dbScreenings.length > 0 ? dbScreenings : fallbackScreenings;
+  const masterclasses = dbMasterclasses.length > 0 ? dbMasterclasses : fallbackMasterclasses;
+
   const heroRef = React.useRef(null);
   const screeningsRef = React.useRef(null);
   const masterclassRef = React.useRef(null);
@@ -136,7 +87,7 @@ export default function CinemaPage() {
   const isMasterclassInView = useInView(masterclassRef, { once: true, margin: '-100px' });
 
   const filteredScreenings = screenings.filter((s) => {
-    if (filter === 'upcoming') return !s.isPast;
+    if (filter === 'upcoming') return !s.is_past;
     return true;
   });
 
@@ -313,14 +264,14 @@ export default function CinemaPage() {
                   {/* Content */}
                   <div className={cn('p-5', isArabic && 'text-right')}>
                     <h3 className={cn('text-xl font-bold text-white mb-1', isArabic && 'font-arabic')}>
-                      {isArabic ? screening.titleAr : screening.titleFr}
+                      {isArabic ? screening.title_ar : screening.title_fr}
                     </h3>
                     <p className={cn('text-sm text-[var(--color-gold)] mb-3', isArabic && 'font-arabic')}>
-                      {isArabic ? screening.directorAr : screening.directorFr} ({screening.year})
+                      {isArabic ? screening.director_ar : screening.director_fr} ({screening.year})
                     </p>
 
                     <p className={cn('text-sm text-[var(--color-silver)] mb-4 line-clamp-2', isArabic && 'font-arabic')}>
-                      {isArabic ? screening.synopsisAr : screening.synopsisFr}
+                      {isArabic ? screening.synopsis_ar : screening.synopsis_fr}
                     </p>
 
                     {/* Details */}
@@ -335,7 +286,7 @@ export default function CinemaPage() {
                       </div>
                       <div className={cn('flex items-center gap-2 text-sm text-[var(--color-gray-light)]', isArabic && 'flex-row-reverse font-arabic')}>
                         <Users className="w-4 h-4 text-[var(--color-crimson)]" />
-                        <span>{t.cinema.discussionWith}: {isArabic ? screening.discussionWithAr : screening.discussionWithFr}</span>
+                        <span>{t.cinema.discussionWith}: {isArabic ? screening.discussion_with_ar : screening.discussion_with_fr}</span>
                       </div>
                     </div>
 
@@ -392,7 +343,7 @@ export default function CinemaPage() {
                 <div className="flex-shrink-0">
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] flex items-center justify-center">
                     <span className="text-2xl font-bold text-[var(--color-black-rich)]">
-                      {(isArabic ? mc.guestAr : mc.guestFr).charAt(0)}
+                      {(isArabic ? mc.guest_ar : mc.guest_fr).charAt(0)}
                     </span>
                   </div>
                 </div>
@@ -400,16 +351,16 @@ export default function CinemaPage() {
                 {/* Content */}
                 <div className="flex-1">
                   <h3 className={cn('text-xl font-bold text-white mb-2', isArabic && 'font-arabic')}>
-                    {isArabic ? mc.titleAr : mc.titleFr}
+                    {isArabic ? mc.title_ar : mc.title_fr}
                   </h3>
                   <p className={cn('text-[var(--color-gold)] font-medium', isArabic && 'font-arabic')}>
-                    {isArabic ? mc.guestAr : mc.guestFr}
+                    {isArabic ? mc.guest_ar : mc.guest_fr}
                   </p>
                   <p className={cn('text-sm text-[var(--color-gray-light)] mb-3', isArabic && 'font-arabic')}>
-                    {isArabic ? mc.roleAr : mc.roleFr}
+                    {isArabic ? mc.role_ar : mc.role_fr}
                   </p>
                   <p className={cn('text-[var(--color-silver)] mb-4', isArabic && 'font-arabic')}>
-                    {isArabic ? mc.topicAr : mc.topicFr}
+                    {isArabic ? mc.topic_ar : mc.topic_fr}
                   </p>
                   <div className={cn('flex items-center gap-2 text-sm text-[var(--color-gray-light)]', isArabic && 'flex-row-reverse')}>
                     <Calendar className="w-4 h-4 text-[var(--color-crimson)]" />
@@ -533,6 +484,9 @@ export default function CinemaPage() {
           </div>
         </div>
       </section>
+
+      {/* Dynamic Sections */}
+      <DynamicSections page="cinema" />
     </div>
   );
 }

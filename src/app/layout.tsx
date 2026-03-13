@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -19,20 +17,8 @@ export const metadata: Metadata = {
   },
   description: 'جمعية الكرامة للمسرح والسينما بسيدي البرنوصي، الدار البيضاء. نادي سينمائي، عروض مسرحية، تكوينات فنية. Association Al-Karama pour le Theatre et le Cinema a Sidi Bernoussi, Casablanca.',
   keywords: [
-    'جمعية الكرامة',
-    'مسرح',
-    'سينما',
-    'نادي سينمائي',
-    'البرنوصي',
-    'الدار البيضاء',
-    'Al-Karama',
-    'Theatre',
-    'Cinema',
-    'Cine-club',
-    'Casablanca',
-    'Sidi Bernoussi',
-    'Morocco',
-    'Maroc',
+    'جمعية الكرامة', 'مسرح', 'سينما', 'نادي سينمائي', 'البرنوصي', 'الدار البيضاء',
+    'Al-Karama', 'Theatre', 'Cinema', 'Cine-club', 'Casablanca', 'Sidi Bernoussi', 'Morocco', 'Maroc',
   ],
   authors: [{ name: 'Association Al-Karama' }],
   creator: 'Association Al-Karama pour le Theatre et le Cinema',
@@ -46,14 +32,7 @@ export const metadata: Metadata = {
     siteName: 'جمعية الكرامة | Al-Karama Association',
     title: 'جمعية الكرامة للمسرح والسينما',
     description: 'الكرامة.. جسر بين سحر الخشبة وعمق الشاشة',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Al-Karama Theatre & Cinema Association',
-      },
-    ],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Al-Karama Theatre & Cinema Association' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -86,11 +65,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-screen bg-[var(--color-black-rich)] text-[var(--color-white-off)]">
         <LanguageProvider>
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </LanguageProvider>
       </body>
     </html>

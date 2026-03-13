@@ -6,78 +6,48 @@ import { motion, useInView } from 'framer-motion';
 import { Landmark, Handshake, Quote } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import { useSupabaseData } from '@/hooks/useSupabaseData';
 
-const partners = [
-  {
-    id: 1,
-    nameAr: 'المديرية الإقليمية لوزارة الثقافة - قطاع الشباب',
-    nameFr: 'Direction Provinciale du Ministere de la Culture - Secteur Jeunesse',
-    descAr: 'شريك استراتيجي في دعم الفعاليات الثقافية والمهرجانات',
-    descFr: 'Partenaire strategique dans le soutien des evenements culturels et festivals',
-    logo: '/Logo/ministry-culture-logo.png',
-    color: 'var(--color-crimson)',
-    tier: 'strategic',
-  },
-  {
-    id: 2,
-    nameAr: 'المديرية الإقليمية لوزارة التربية الوطنية',
-    nameFr: 'Direction Provinciale du Ministere de l\'Education Nationale',
-    descAr: 'شراكة في إطار برنامج الأندية المدرسية والتربية على الصورة',
-    descFr: 'Partenariat dans le cadre du programme des clubs scolaires et d\'education a l\'image',
-    logo: '/Logo/ministry-education-logo.png',
-    color: 'var(--color-gold)',
-    tier: 'strategic',
-  },
-  {
-    id: 3,
-    nameAr: 'المركز السينمائي المغربي',
-    nameFr: 'Centre Cinematographique Marocain (CCM)',
-    descAr: 'دعم تقني وفني للعروض السينمائية وبرامج التكوين',
-    descFr: 'Soutien technique et artistique pour les projections et programmes de formation',
-    logo: '/Logo/ccm-logo.png',
-    color: 'var(--color-teal)',
-    tier: 'strategic',
-  },
-  {
-    id: 4,
-    nameAr: 'عمالة سيدي البرنوصي',
-    nameFr: 'Prefecture de Sidi Bernoussi',
-    descAr: 'دعم لوجستي ومؤسساتي للأنشطة المحلية',
-    descFr: 'Soutien logistique et institutionnel pour les activites locales',
-    logo: null, // No logo provided
-    icon: Landmark,
-    color: 'var(--color-terracotta)',
-    tier: 'institutional',
-  },
-  {
-    id: 5,
-    nameAr: 'دار الشباب سيدي البرنوصي',
-    nameFr: 'Maison des Jeunes Sidi Bernoussi',
-    descAr: 'مقر الجمعية وشريك في تنظيم الفعاليات',
-    descFr: 'Siege de l\'association et partenaire dans l\'organisation des evenements',
-    logo: '/Logo/dar-chabab-logo.jpg',
-    color: 'var(--color-gold-dark)',
-    tier: 'institutional',
-  },
+interface Partner {
+  id: string;
+  name_ar: string;
+  name_fr: string;
+  description_ar: string;
+  description_fr: string;
+  logo_url: string;
+  tier: string;
+  display_order: number;
+}
+
+interface Testimonial {
+  id: string;
+  quote_ar: string;
+  quote_fr: string;
+  author_ar: string;
+  author_fr: string;
+  display_order: number;
+}
+
+const fallbackPartners = [
+  { id: '1', name_ar: 'المديرية الإقليمية لوزارة الثقافة - قطاع الشباب', name_fr: 'Direction Provinciale du Ministere de la Culture - Secteur Jeunesse', description_ar: 'شريك استراتيجي في دعم الفعاليات الثقافية والمهرجانات', description_fr: 'Partenaire strategique dans le soutien des evenements culturels et festivals', logo_url: '/Logo/ministry-culture-logo.png', tier: 'strategic', display_order: 1 },
+  { id: '2', name_ar: 'المديرية الإقليمية لوزارة التربية الوطنية', name_fr: 'Direction Provinciale du Ministere de l\'Education Nationale', description_ar: 'شراكة في إطار برنامج الأندية المدرسية والتربية على الصورة', description_fr: 'Partenariat dans le cadre du programme des clubs scolaires et d\'education a l\'image', logo_url: '/Logo/ministry-education-logo.png', tier: 'strategic', display_order: 2 },
+  { id: '3', name_ar: 'المركز السينمائي المغربي', name_fr: 'Centre Cinematographique Marocain (CCM)', description_ar: 'دعم تقني وفني للعروض السينمائية وبرامج التكوين', description_fr: 'Soutien technique et artistique pour les projections et programmes de formation', logo_url: '/Logo/ccm-logo.png', tier: 'strategic', display_order: 3 },
+  { id: '4', name_ar: 'عمالة سيدي البرنوصي', name_fr: 'Prefecture de Sidi Bernoussi', description_ar: 'دعم لوجستي ومؤسساتي للأنشطة المحلية', description_fr: 'Soutien logistique et institutionnel pour les activites locales', logo_url: '', tier: 'institutional', display_order: 4 },
+  { id: '5', name_ar: 'دار الشباب سيدي البرنوصي', name_fr: 'Maison des Jeunes Sidi Bernoussi', description_ar: 'مقر الجمعية وشريك في تنظيم الفعاليات', description_fr: 'Siege de l\'association et partenaire dans l\'organisation des evenements', logo_url: '/Logo/dar-chabab-logo.jpg', tier: 'institutional', display_order: 5 },
 ];
 
-const testimonials = [
-  {
-    quoteAr: 'جمعية الكرامة شريك أساسي في نشر الثقافة السينمائية بالمنطقة. تجربتهم في إنشاء الأندية السينمائية نموذجية.',
-    quoteFr: 'L\'association Al-Karama est un partenaire essentiel dans la diffusion de la culture cinematographique dans la region. Leur experience dans la creation de cine-clubs est exemplaire.',
-    authorAr: 'مسؤول بالمركز السينمائي المغربي',
-    authorFr: 'Responsable au CCM',
-  },
-  {
-    quoteAr: 'برنامج تكوين المكونين أضاف قيمة حقيقية لأطرنا التربوية في مجال التربية على الصورة.',
-    quoteFr: 'Le programme de formation des formateurs a apporte une vraie valeur ajoutee a nos cadres educatifs dans le domaine de l\'education a l\'image.',
-    authorAr: 'مفتش تربوي',
-    authorFr: 'Inspecteur educatif',
-  },
+const fallbackTestimonials = [
+  { id: '1', quote_ar: 'جمعية الكرامة شريك أساسي في نشر الثقافة السينمائية بالمنطقة. تجربتهم في إنشاء الأندية السينمائية نموذجية.', quote_fr: 'L\'association Al-Karama est un partenaire essentiel dans la diffusion de la culture cinematographique dans la region. Leur experience dans la creation de cine-clubs est exemplaire.', author_ar: 'مسؤول بالمركز السينمائي المغربي', author_fr: 'Responsable au CCM', display_order: 1 },
+  { id: '2', quote_ar: 'برنامج تكوين المكونين أضاف قيمة حقيقية لأطرنا التربوية في مجال التربية على الصورة.', quote_fr: 'Le programme de formation des formateurs a apporte une vraie valeur ajoutee a nos cadres educatifs dans le domaine de l\'education a l\'image.', author_ar: 'مفتش تربوي', author_fr: 'Inspecteur educatif', display_order: 2 },
 ];
 
 export default function PartnersPage() {
   const { t, isArabic } = useLanguage();
+  const { data: dbPartners } = useSupabaseData<Partner>('partners');
+  const { data: dbTestimonials } = useSupabaseData<Testimonial>('testimonials');
+
+  const partners = dbPartners.length > 0 ? dbPartners : fallbackPartners;
+  const testimonials = dbTestimonials.length > 0 ? dbTestimonials : fallbackTestimonials;
 
   const heroRef = React.useRef(null);
   const partnersRef = React.useRef(null);
@@ -161,10 +131,10 @@ export default function PartnersPage() {
                 )}
               >
                 <div className="w-36 h-36 mx-auto mb-6 rounded-xl bg-white flex items-center justify-center p-4 shadow-lg shadow-black/20 transition-transform group-hover:scale-105">
-                  {partner.logo && (
+                  {partner.logo_url && (
                     <Image
-                      src={partner.logo}
-                      alt={isArabic ? partner.nameAr : partner.nameFr}
+                      src={partner.logo_url}
+                      alt={isArabic ? partner.name_ar : partner.name_fr}
                       width={120}
                       height={120}
                       className="object-contain w-full h-full"
@@ -173,11 +143,11 @@ export default function PartnersPage() {
                 </div>
 
                 <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[var(--color-gold)] transition-colors">
-                  {isArabic ? partner.nameAr : partner.nameFr}
+                  {isArabic ? partner.name_ar : partner.name_fr}
                 </h3>
 
                 <p className="text-[var(--color-silver)] text-sm">
-                  {isArabic ? partner.descAr : partner.descFr}
+                  {isArabic ? partner.description_ar : partner.description_fr}
                 </p>
               </motion.div>
             ))}
@@ -214,25 +184,25 @@ export default function PartnersPage() {
                 <div
                   className="flex-shrink-0 w-16 h-16 rounded-lg bg-white/95 flex items-center justify-center p-2 transition-transform group-hover:scale-110 overflow-hidden"
                 >
-                  {partner.logo ? (
+                  {partner.logo_url ? (
                     <Image
-                      src={partner.logo}
-                      alt={isArabic ? partner.nameAr : partner.nameFr}
+                      src={partner.logo_url}
+                      alt={isArabic ? partner.name_ar : partner.name_fr}
                       width={56}
                       height={56}
                       className="object-contain w-full h-full"
                     />
-                  ) : partner.icon ? (
-                    <partner.icon className="w-8 h-8" style={{ color: partner.color }} />
-                  ) : null}
+                  ) : (
+                    <Landmark className="w-8 h-8 text-[var(--color-terracotta)]" />
+                  )}
                 </div>
 
                 <div className={cn(isArabic && 'text-right')}>
                   <h3 className={cn('text-lg font-bold text-white mb-1', isArabic && 'font-arabic')}>
-                    {isArabic ? partner.nameAr : partner.nameFr}
+                    {isArabic ? partner.name_ar : partner.name_fr}
                   </h3>
                   <p className={cn('text-[var(--color-silver)] text-sm', isArabic && 'font-arabic')}>
-                    {isArabic ? partner.descAr : partner.descFr}
+                    {isArabic ? partner.description_ar : partner.description_fr}
                   </p>
                 </div>
               </motion.div>
@@ -261,7 +231,7 @@ export default function PartnersPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {testimonials.map((testimonial, index) => (
               <motion.div
-                key={index}
+                key={testimonial.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isTestimonialsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
@@ -276,17 +246,17 @@ export default function PartnersPage() {
                   'text-[var(--color-silver)] text-lg leading-relaxed mb-6 pt-6',
                   isArabic && 'font-arabic'
                 )}>
-                  "{isArabic ? testimonial.quoteAr : testimonial.quoteFr}"
+                  &ldquo;{isArabic ? testimonial.quote_ar : testimonial.quote_fr}&rdquo;
                 </p>
 
                 <div className={cn('flex items-center gap-3', isArabic && 'flex-row-reverse')}>
                   <div className="w-10 h-10 rounded-full bg-[var(--color-crimson)]/20 flex items-center justify-center">
                     <span className="text-[var(--color-crimson)] font-bold">
-                      {(isArabic ? testimonial.authorAr : testimonial.authorFr).charAt(0)}
+                      {(isArabic ? testimonial.author_ar : testimonial.author_fr).charAt(0)}
                     </span>
                   </div>
                   <span className={cn('text-[var(--color-gold)] font-medium', isArabic && 'font-arabic')}>
-                    {isArabic ? testimonial.authorAr : testimonial.authorFr}
+                    {isArabic ? testimonial.author_ar : testimonial.author_fr}
                   </span>
                 </div>
               </motion.div>

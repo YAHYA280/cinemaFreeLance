@@ -28,6 +28,7 @@ export default function Header() {
     { href: '/cinema', label: t.nav.cinema },
     { href: '/school-clubs', label: t.nav.schoolClubs },
     { href: '/media', label: t.nav.media },
+    { href: '/blog', label: t.blog.title },
     { href: '/partners', label: t.nav.partners },
     { href: '/contact', label: t.nav.contact },
   ];

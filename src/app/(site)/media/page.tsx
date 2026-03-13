@@ -8,48 +8,28 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import DynamicGallery from '@/components/dynamic/DynamicGallery';
+import DynamicSections from '@/components/dynamic/DynamicSections';
+import { useSupabaseData } from '@/hooks/useSupabaseData';
 
-const newsArticles = [
-  {
-    id: 1,
-    titleAr: 'افتتاح نادي البرنوصي السينمائي بعرض فيلم "بامو"',
-    titleFr: 'Inauguration du Cine-Club Bernoussi avec le film "Bamo"',
-    excerptAr: 'احتضنت دار الشباب سيدي البرنوصي حفل افتتاح النادي السينمائي الجديد بحضور نخبة من الفنانين والمثقفين، حيث عرض فيلم "بامو" للمخرج محمد مفتكر تلاه نقاش ثري مع الناقد حمادي كيروم.',
-    excerptFr: 'La Maison des Jeunes de Sidi Bernoussi a accueilli la ceremonie d\'inauguration du nouveau cine-club en presence d\'artistes et d\'intellectuels. Le film "Bamo" du realisateur Mohamed Mouftakir a ete projete, suivi d\'un riche debat avec le critique Hamadi Kirom.',
-    source: 'Medi1 TV',
-    date: '2024-02-10',
-    category: { ar: 'أخبار', fr: 'Actualites' },
-  },
-  {
-    id: 2,
-    titleAr: 'جمعية الكرامة تطلق برنامج تكوين مهن السينما',
-    titleFr: 'Al-Karama lance un programme de formation aux metiers du cinema',
-    excerptAr: 'أعلنت جمعية الكرامة للمسرح والسينما عن إطلاق برنامج تكويني شامل يستهدف الشباب الراغبين في دخول عالم السينما، ويشمل ورشات في كتابة السيناريو والمونتاج والإخراج.',
-    excerptFr: 'L\'association Al-Karama pour le Theatre et le Cinema a annonce le lancement d\'un programme de formation complet destine aux jeunes desireux d\'entrer dans le monde du cinema, comprenant des ateliers de scenario, de montage et de realisation.',
-    source: 'MAP',
-    date: '2024-02-05',
-    category: { ar: 'تكوين', fr: 'Formation' },
-  },
-  {
-    id: 3,
-    titleAr: 'لقاء مع الناقد السينمائي حمادي كيروم',
-    titleFr: 'Rencontre avec le critique de cinema Hamadi Kirom',
-    excerptAr: 'في إطار فعاليات الماستر كلاس، استضافت الجمعية الناقد السينمائي المغربي الشهير حمادي كيروم الذي قدم قراءة نقدية معمقة للسينما المغربية المعاصرة.',
-    excerptFr: 'Dans le cadre des activites Master Class, l\'association a accueilli le celebre critique de cinema marocain Hamadi Kirom qui a presente une lecture critique approfondie du cinema marocain contemporain.',
-    source: 'Al Aoual',
-    date: '2024-01-28',
-    category: { ar: 'ماستر كلاس', fr: 'Masterclass' },
-  },
-  {
-    id: 4,
-    titleAr: 'شراكة جديدة مع المركز السينمائي المغربي',
-    titleFr: 'Nouveau partenariat avec le Centre Cinematographique Marocain',
-    excerptAr: 'وقعت جمعية الكرامة اتفاقية شراكة استراتيجية مع المركز السينمائي المغربي لدعم الأنشطة الثقافية والتكوينية.',
-    excerptFr: 'L\'association Al-Karama a signe un accord de partenariat strategique avec le Centre Cinematographique Marocain pour soutenir les activites culturelles et formatrices.',
-    source: 'Hespress',
-    date: '2024-01-15',
-    category: { ar: 'شراكات', fr: 'Partenariats' },
-  },
+interface NewsArticle {
+  id: string;
+  title_ar: string;
+  title_fr: string;
+  excerpt_ar: string;
+  excerpt_fr: string;
+  source: string;
+  date: string;
+  category_ar: string;
+  category_fr: string;
+  display_order: number;
+}
+
+const fallbackNewsArticles: NewsArticle[] = [
+  { id: '1', title_ar: 'افتتاح نادي البرنوصي السينمائي بعرض فيلم "بامو"', title_fr: 'Inauguration du Cine-Club Bernoussi avec le film "Bamo"', excerpt_ar: 'احتضنت دار الشباب سيدي البرنوصي حفل افتتاح النادي السينمائي الجديد بحضور نخبة من الفنانين والمثقفين، حيث عرض فيلم "بامو" للمخرج محمد مفتكر تلاه نقاش ثري مع الناقد حمادي كيروم.', excerpt_fr: 'La Maison des Jeunes de Sidi Bernoussi a accueilli la ceremonie d\'inauguration du nouveau cine-club en presence d\'artistes et d\'intellectuels.', source: 'Medi1 TV', date: '2024-02-10', category_ar: 'أخبار', category_fr: 'Actualites', display_order: 1 },
+  { id: '2', title_ar: 'جمعية الكرامة تطلق برنامج تكوين مهن السينما', title_fr: 'Al-Karama lance un programme de formation aux metiers du cinema', excerpt_ar: 'أعلنت جمعية الكرامة للمسرح والسينما عن إطلاق برنامج تكويني شامل يستهدف الشباب الراغبين في دخول عالم السينما.', excerpt_fr: 'L\'association Al-Karama pour le Theatre et le Cinema a annonce le lancement d\'un programme de formation complet.', source: 'MAP', date: '2024-02-05', category_ar: 'تكوين', category_fr: 'Formation', display_order: 2 },
+  { id: '3', title_ar: 'لقاء مع الناقد السينمائي حمادي كيروم', title_fr: 'Rencontre avec le critique de cinema Hamadi Kirom', excerpt_ar: 'في إطار فعاليات الماستر كلاس، استضافت الجمعية الناقد السينمائي المغربي الشهير حمادي كيروم.', excerpt_fr: 'Dans le cadre des activites Master Class, l\'association a accueilli le celebre critique de cinema marocain Hamadi Kirom.', source: 'Al Aoual', date: '2024-01-28', category_ar: 'ماستر كلاس', category_fr: 'Masterclass', display_order: 3 },
+  { id: '4', title_ar: 'شراكة جديدة مع المركز السينمائي المغربي', title_fr: 'Nouveau partenariat avec le Centre Cinematographique Marocain', excerpt_ar: 'وقعت جمعية الكرامة اتفاقية شراكة استراتيجية مع المركز السينمائي المغربي.', excerpt_fr: 'L\'association Al-Karama a signe un accord de partenariat strategique avec le Centre Cinematographique Marocain.', source: 'Hespress', date: '2024-01-15', category_ar: 'شراكات', category_fr: 'Partenariats', display_order: 4 },
 ];
 
 const galleryImages = [
@@ -92,6 +72,9 @@ type GalleryFilter = 'all' | 'cinema' | 'theatre' | 'training';
 
 export default function MediaPage() {
   const { t, isArabic } = useLanguage();
+  const { data: dbNews } = useSupabaseData<NewsArticle>('news_articles');
+  const newsArticles = dbNews.length > 0 ? dbNews : fallbackNewsArticles;
+
   const [activeTab, setActiveTab] = useState<TabType>('print');
   const [galleryFilter, setGalleryFilter] = useState<GalleryFilter>('all');
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
@@ -219,10 +202,10 @@ export default function MediaPage() {
                           </div>
                         </div>
                         <h3 className={cn('text-xl font-bold text-white mb-3 group-hover:text-[var(--color-gold)] transition-colors', isArabic && 'font-arabic')}>
-                          {isArabic ? article.titleAr : article.titleFr}
+                          {isArabic ? article.title_ar : article.title_fr}
                         </h3>
                         <p className={cn('text-[var(--color-silver)] text-sm leading-relaxed mb-4 line-clamp-3', isArabic && 'font-arabic')}>
-                          {isArabic ? article.excerptAr : article.excerptFr}
+                          {isArabic ? article.excerpt_ar : article.excerpt_fr}
                         </p>
                       </div>
                     </motion.article>
@@ -265,10 +248,10 @@ export default function MediaPage() {
                       </div>
                       <div className={cn('p-6', isArabic && 'text-right')}>
                         <h3 className={cn('text-xl font-bold text-white mb-3 group-hover:text-[var(--color-gold)] transition-colors', isArabic && 'font-arabic')}>
-                          {isArabic ? article.titleAr : article.titleFr}
+                          {isArabic ? article.title_ar : article.title_fr}
                         </h3>
                         <p className={cn('text-[var(--color-silver)] text-sm leading-relaxed mb-4 line-clamp-3', isArabic && 'font-arabic')}>
-                          {isArabic ? article.excerptAr : article.excerptFr}
+                          {isArabic ? article.excerpt_ar : article.excerpt_fr}
                         </p>
                         <button className={cn('inline-flex items-center gap-2 text-[var(--color-gold)] hover:text-[var(--color-gold-bright)] text-sm', isArabic && 'flex-row-reverse font-arabic')}>
                           {t.blog.readMore}
@@ -332,121 +315,18 @@ export default function MediaPage() {
         </div>
       </section>
 
-      {/* Photo Gallery Section */}
+      {/* Dynamic Photo Gallery Section */}
       <section className="py-16 bg-[var(--color-black-rich)]">
         <div className="container mx-auto px-4">
           <h2 className={cn('text-2xl md:text-3xl font-bold text-center mb-8', isArabic ? 'text-gradient-gold font-arabic' : 'heading-display text-white')}>
             {t.media.gallery}
           </h2>
-
-          {/* Gallery controls */}
-          <div className={cn('flex flex-wrap items-center justify-between gap-4 mb-8', isArabic && 'flex-row-reverse')}>
-            <div className={cn('flex items-center gap-2', isArabic && 'flex-row-reverse')}>
-              {galleryFilters.map((filter) => (
-                <button
-                  key={filter.id}
-                  onClick={() => setGalleryFilter(filter.id)}
-                  className={cn(
-                    'px-4 py-2 rounded text-sm transition-all',
-                    galleryFilter === filter.id
-                      ? 'bg-[var(--color-gold)] text-[var(--color-black-rich)]'
-                      : 'glass text-[var(--color-silver)] hover:text-white',
-                    isArabic && 'font-arabic'
-                  )}
-                >
-                  {isArabic ? filter.labelAr : filter.labelFr}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <button onClick={() => setViewMode('grid')} className={cn('p-2 rounded transition-colors', viewMode === 'grid' ? 'text-[var(--color-gold)]' : 'text-[var(--color-gray-light)]')}>
-                <Grid size={20} />
-              </button>
-              <button onClick={() => setViewMode('list')} className={cn('p-2 rounded transition-colors', viewMode === 'list' ? 'text-[var(--color-gold)]' : 'text-[var(--color-gray-light)]')}>
-                <List size={20} />
-              </button>
-            </div>
-          </div>
-
-          {/* Gallery grid */}
-          <div className={cn('grid gap-4', viewMode === 'grid' ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2')}>
-            <AnimatePresence mode="popLayout">
-              {filteredImages.map((image, index) => (
-                <motion.div
-                  key={image.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  onClick={() => setLightboxImage(index)}
-                  className={cn('group relative cursor-pointer overflow-hidden rounded-lg', viewMode === 'grid' ? 'aspect-square' : 'aspect-video')}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-curtain)] to-[var(--color-black-pure)]">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <ImageIcon className="w-12 h-12 text-[var(--color-gold)]/20" />
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className={cn('text-white text-sm', isArabic && 'font-arabic')}>
-                      {isArabic ? image.event.ar : image.event.fr}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+          <DynamicGallery />
         </div>
       </section>
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {lightboxImage !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
-            onClick={() => setLightboxImage(null)}
-          >
-            <button
-              onClick={() => setLightboxImage(null)}
-              className="absolute top-4 right-4 p-2 text-white hover:text-[var(--color-gold)]"
-            >
-              <X size={32} />
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxImage(Math.max(0, lightboxImage - 1));
-              }}
-              className="absolute left-4 p-2 text-white hover:text-[var(--color-gold)]"
-            >
-              <ChevronLeft size={32} />
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxImage(Math.min(filteredImages.length - 1, lightboxImage + 1));
-              }}
-              className="absolute right-4 p-2 text-white hover:text-[var(--color-gold)]"
-            >
-              <ChevronRight size={32} />
-            </button>
-
-            <div className="max-w-4xl max-h-[80vh] aspect-video bg-gradient-to-br from-[var(--color-curtain)] to-[var(--color-black-pure)] rounded-lg flex items-center justify-center">
-              <ImageIcon className="w-32 h-32 text-[var(--color-gold)]/20" />
-            </div>
-
-            <div className={cn('absolute bottom-8 text-white text-center', isArabic && 'font-arabic')}>
-              <p className="text-lg">{isArabic ? filteredImages[lightboxImage]?.event.ar : filteredImages[lightboxImage]?.event.fr}</p>
-              <p className="text-sm text-[var(--color-gray-light)]">{lightboxImage + 1} / {filteredImages.length}</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Dynamic Sections */}
+      <DynamicSections page="media" />
     </div>
   );
 }

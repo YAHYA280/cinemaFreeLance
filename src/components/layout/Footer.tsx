@@ -7,9 +7,11 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 export default function Footer() {
   const { t, isArabic } = useLanguage();
+  const { settings } = useSiteSettings();
 
   const quickLinks = [
     { href: '/', label: t.nav.home },
@@ -20,10 +22,10 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Youtube, href: '#', label: 'YouTube' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
+    { icon: Facebook, href: settings.facebook_url, label: 'Facebook' },
+    { icon: Instagram, href: settings.instagram_url, label: 'Instagram' },
+    { icon: Youtube, href: settings.youtube_url, label: 'YouTube' },
+    { icon: Twitter, href: settings.twitter_url, label: 'Twitter' },
   ];
 
   return (
@@ -113,13 +115,13 @@ export default function Footer() {
                 <li className={cn('flex items-center gap-3 text-sm', isArabic && 'flex-row-reverse')}>
                   <Phone className="w-5 h-5 text-[var(--color-crimson)] flex-shrink-0" />
                   <span className="text-[var(--color-silver)]" dir="ltr">
-                    +212 6XX XXX XXX
+                    {settings.phone}
                   </span>
                 </li>
                 <li className={cn('flex items-center gap-3 text-sm', isArabic && 'flex-row-reverse')}>
                   <Mail className="w-5 h-5 text-[var(--color-crimson)] flex-shrink-0" />
                   <span className="text-[var(--color-silver)]">
-                    contact@alkarama.ma
+                    {settings.email}
                   </span>
                 </li>
               </ul>
