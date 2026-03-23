@@ -46,7 +46,7 @@ const fallbackTimeline = [
   { id: '2', year: '2018', title_ar: 'أول إنتاج مسرحي', title_fr: 'Premiere production theatrale', description_ar: 'عرض أول مسرحية من إنتاج فرقة الكرامة', description_fr: 'Premiere piece de theatre produite par la troupe Al-Karama', display_order: 2 },
   { id: '3', year: '2020', title_ar: 'إطلاق برنامج التكوين', title_fr: 'Lancement du programme de formation', description_ar: 'بداية ورشات التكوين في فنون المسرح والسينما', description_fr: 'Debut des ateliers de formation aux arts du theatre et du cinema', display_order: 3 },
   { id: '4', year: '2023', title_ar: 'شراكة مع المركز السينمائي', title_fr: 'Partenariat avec le CCM', description_ar: 'توقيع اتفاقية شراكة مع المركز السينمائي المغربي', description_fr: 'Signature d\'un accord de partenariat avec le CCM', display_order: 4 },
-  { id: '5', year: '2024', title_ar: 'افتتاح النادي السينمائي', title_fr: 'Inauguration du Cine-Club', description_ar: 'افتتاح نادي البرنوصي السينمائي بعرض فيلم بامو', description_fr: 'Inauguration du Cine-Club Bernoussi avec le film Bamo', display_order: 5 },
+  { id: '5', year: '2024', title_ar: 'افتتاح النادي السينمائي', title_fr: 'Inauguration du Cine-Club', description_ar: 'افتتاح نادي سينما السلام البرنوصي بعرض فيلم بامو', description_fr: 'Inauguration du Cine-Club Bernoussi avec le film Bamo', display_order: 5 },
 ];
 
 const documents = [

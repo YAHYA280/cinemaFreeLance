@@ -338,12 +338,18 @@ export default function TheatrePage() {
             transition={{ duration: 0.8 }}
             className={cn('text-center', isArabic && 'font-arabic')}
           >
-            <h1 className={cn(
-              'text-5xl md:text-6xl lg:text-7xl font-bold mb-6',
-              isArabic ? 'text-gradient-gold' : 'heading-display text-white'
-            )}>
-              {t.theatre.title}
-            </h1>
+            <div className="relative inline-block px-12 py-5 mb-6">
+              <div className="absolute inset-0 rounded-xl overflow-hidden opacity-50">
+                <Image src="/wood.svg" alt="" fill className="object-cover" />
+              </div>
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-black/50 via-black/20 to-black/50" />
+              <h1 className={cn(
+                'relative text-5xl md:text-6xl lg:text-7xl font-bold',
+                isArabic ? 'text-gradient-gold' : 'heading-display text-white'
+              )}>
+                {t.theatre.title}
+              </h1>
+            </div>
 
             <p className="text-xl md:text-2xl text-[var(--color-champagne)] max-w-2xl mx-auto mb-4">
               {t.theatre.troupe}
@@ -467,12 +473,18 @@ export default function TheatrePage() {
               <Star className="w-5 h-5" fill="currentColor" />
             </motion.div>
 
-            <h2 className={cn(
-              'text-4xl md:text-5xl lg:text-6xl font-bold mb-4',
-              isArabic ? 'text-gradient-gold' : 'heading-display text-white'
-            )}>
-              {isArabic ? featuredProduction.titleAr : featuredProduction.titleFr}
-            </h2>
+            <div className="relative inline-block px-10 py-4 mb-4">
+              <div className="absolute inset-0 rounded-lg overflow-hidden opacity-70">
+                <Image src="/wood.svg" alt="" fill className="object-cover" />
+              </div>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+              <h2 className={cn(
+                'relative text-4xl md:text-5xl lg:text-6xl font-bold',
+                isArabic ? 'text-gradient-gold' : 'heading-display text-white'
+              )}>
+                {isArabic ? featuredProduction.titleAr : featuredProduction.titleFr}
+              </h2>
+            </div>
 
             <div className="flex items-center justify-center gap-4 mb-6">
               <span className="px-3 py-1 rounded bg-[var(--color-crimson)]/20 text-[var(--color-crimson)] text-sm">
@@ -572,12 +584,18 @@ export default function TheatrePage() {
                   <div key={i} className="w-2 h-3 bg-[var(--color-gold)]/40 rounded-sm" />
                 ))}
               </div>
-              <h3 className={cn(
-                'text-2xl md:text-3xl font-bold text-[var(--color-gold)] text-center',
-                isArabic && 'font-arabic'
-              )}>
-                {isArabic ? 'معرض الصور' : 'Galerie Photos'}
-              </h3>
+              <div className="relative inline-block px-6 py-2">
+                <div className="absolute inset-0 rounded-lg overflow-hidden opacity-70">
+                  <Image src="/wood.svg" alt="" fill className="object-cover" />
+                </div>
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+                <h3 className={cn(
+                  'relative text-2xl md:text-3xl font-bold text-[var(--color-gold)] text-center',
+                  isArabic && 'font-arabic'
+                )}>
+                  {isArabic ? 'معرض الصور' : 'Galerie Photos'}
+                </h3>
+              </div>
               <div className="hidden md:flex items-center gap-1">
                 {[...Array(8)].map((_, i) => (
                   <div key={i} className="w-2 h-3 bg-[var(--color-gold)]/40 rounded-sm" />
@@ -748,12 +766,18 @@ export default function TheatrePage() {
             transition={{ duration: 0.8 }}
             className={cn('text-center mb-16', isArabic && 'font-arabic')}
           >
-            <h2 className={cn(
-              'text-3xl md:text-4xl font-bold mb-4',
-              isArabic ? 'text-gradient-gold' : 'heading-display text-white'
-            )}>
-              {isArabic ? 'إنتاجات أخرى' : 'Autres Productions'}
-            </h2>
+            <div className="relative inline-block px-8 py-3 mb-4">
+              <div className="absolute inset-0 rounded-lg overflow-hidden opacity-70">
+                <Image src="/wood.svg" alt="" fill className="object-cover" />
+              </div>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+              <h2 className={cn(
+                'relative text-3xl md:text-4xl font-bold',
+                isArabic ? 'text-gradient-gold' : 'heading-display text-white'
+              )}>
+                {isArabic ? 'إنتاجات أخرى' : 'Autres Productions'}
+              </h2>
+            </div>
             <div className="flex items-center justify-center gap-4">
               <div className="w-16 h-px bg-gradient-to-r from-transparent to-[var(--color-gold)]" />
               <Play className="w-6 h-6 text-[var(--color-gold)]" />
@@ -832,12 +856,18 @@ export default function TheatrePage() {
             transition={{ duration: 0.8 }}
             className={cn('text-center mb-16', isArabic && 'font-arabic')}
           >
-            <h2 className={cn(
-              'text-3xl md:text-4xl font-bold mb-4',
-              isArabic ? 'text-gradient-gold' : 'heading-display text-white'
-            )}>
-              {t.theatre.school}
-            </h2>
+            <div className="relative inline-block px-8 py-3 mb-4">
+              <div className="absolute inset-0 rounded-lg overflow-hidden opacity-70">
+                <Image src="/wood.svg" alt="" fill className="object-cover" />
+              </div>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+              <h2 className={cn(
+                'relative text-3xl md:text-4xl font-bold',
+                isArabic ? 'text-gradient-gold' : 'heading-display text-white'
+              )}>
+                {t.theatre.school}
+              </h2>
+            </div>
             <p className="text-[var(--color-silver)] max-w-2xl mx-auto">
               {t.theatre.workshops}
             </p>
@@ -904,12 +934,18 @@ export default function TheatrePage() {
             transition={{ duration: 0.8 }}
             className={cn('text-center mb-16', isArabic && 'font-arabic')}
           >
-            <h2 className={cn(
-              'text-3xl md:text-4xl font-bold mb-4',
-              isArabic ? 'text-gradient-gold' : 'heading-display text-white'
-            )}>
-              {t.theatre.festivals}
-            </h2>
+            <div className="relative inline-block px-8 py-3 mb-4">
+              <div className="absolute inset-0 rounded-lg overflow-hidden opacity-70">
+                <Image src="/wood.svg" alt="" fill className="object-cover" />
+              </div>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+              <h2 className={cn(
+                'relative text-3xl md:text-4xl font-bold',
+                isArabic ? 'text-gradient-gold' : 'heading-display text-white'
+              )}>
+                {t.theatre.festivals}
+              </h2>
+            </div>
             <div className="flex items-center justify-center gap-4">
               <div className="w-16 h-px bg-gradient-to-r from-transparent to-[var(--color-gold)]" />
               <Award className="w-6 h-6 text-[var(--color-gold)]" />

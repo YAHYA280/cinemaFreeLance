@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
-import { Save, Phone, Mail, MapPin, Clock, Globe, Loader2 } from 'lucide-react';
+import { Save, Phone, Mail, MapPin, Clock, Globe, Loader2, Tag } from 'lucide-react';
 
 interface SettingField {
   key: string;
@@ -12,20 +12,30 @@ interface SettingField {
   icon: React.ElementType;
   type?: 'text' | 'url' | 'email' | 'tel';
   placeholder?: string;
+  section: 'branding' | 'contact' | 'social';
 }
 
 const settingFields: SettingField[] = [
-  { key: 'phone', labelAr: 'رقم الهاتف', labelFr: 'Telephone', icon: Phone, type: 'tel', placeholder: '+212 6XX XXX XXX' },
-  { key: 'email', labelAr: 'البريد الإلكتروني', labelFr: 'Email', icon: Mail, type: 'email', placeholder: 'contact@alkarama.ma' },
-  { key: 'address_ar', labelAr: 'العنوان (عربي)', labelFr: 'Adresse (Arabe)', icon: MapPin },
-  { key: 'address_fr', labelAr: 'العنوان (فرنسي)', labelFr: 'Adresse (Francais)', icon: MapPin },
-  { key: 'hours_ar', labelAr: 'ساعات العمل (عربي)', labelFr: 'Horaires (Arabe)', icon: Clock },
-  { key: 'hours_fr', labelAr: 'ساعات العمل (فرنسي)', labelFr: 'Horaires (Francais)', icon: Clock },
-  { key: 'facebook_url', labelAr: 'رابط فيسبوك', labelFr: 'Lien Facebook', icon: Globe, type: 'url', placeholder: 'https://facebook.com/...' },
-  { key: 'instagram_url', labelAr: 'رابط إنستغرام', labelFr: 'Lien Instagram', icon: Globe, type: 'url', placeholder: 'https://instagram.com/...' },
-  { key: 'youtube_url', labelAr: 'رابط يوتيوب', labelFr: 'Lien YouTube', icon: Globe, type: 'url', placeholder: 'https://youtube.com/...' },
-  { key: 'twitter_url', labelAr: 'رابط تويتر', labelFr: 'Lien Twitter', icon: Globe, type: 'url', placeholder: 'https://twitter.com/...' },
-  { key: 'map_url', labelAr: 'رابط خرائط جوجل', labelFr: 'Lien Google Maps', icon: MapPin, type: 'url', placeholder: 'https://maps.google.com/...' },
+  // Branding
+  { key: 'club_name_ar', labelAr: 'اسم النادي السينمائي (عربي)', labelFr: 'Nom du Cine-Club (Arabe)', icon: Tag, section: 'branding', placeholder: 'نادي سينما السلام البرنوصي' },
+  { key: 'club_name_fr', labelAr: 'اسم النادي السينمائي (فرنسي)', labelFr: 'Nom du Cine-Club (Francais)', icon: Tag, section: 'branding', placeholder: 'Cine-Club Bernoussi' },
+  { key: 'association_name_ar', labelAr: 'اسم الجمعية (عربي)', labelFr: 'Nom de l\'Association (Arabe)', icon: Tag, section: 'branding', placeholder: 'جمعية الكرامة للمسرح والسينما' },
+  { key: 'association_name_fr', labelAr: 'اسم الجمعية (فرنسي)', labelFr: 'Nom de l\'Association (Francais)', icon: Tag, section: 'branding', placeholder: 'Association Al-Karama' },
+  { key: 'association_slogan_ar', labelAr: 'شعار الجمعية (عربي)', labelFr: 'Slogan (Arabe)', icon: Tag, section: 'branding', placeholder: 'للمسرح والسينما' },
+  { key: 'association_slogan_fr', labelAr: 'شعار الجمعية (فرنسي)', labelFr: 'Slogan (Francais)', icon: Tag, section: 'branding', placeholder: 'Theatre & Cinema' },
+  // Contact
+  { key: 'phone', labelAr: 'رقم الهاتف', labelFr: 'Telephone', icon: Phone, type: 'tel', section: 'contact', placeholder: '+212 6XX XXX XXX' },
+  { key: 'email', labelAr: 'البريد الإلكتروني', labelFr: 'Email', icon: Mail, type: 'email', section: 'contact', placeholder: 'contact@alkarama.ma' },
+  { key: 'address_ar', labelAr: 'العنوان (عربي)', labelFr: 'Adresse (Arabe)', icon: MapPin, section: 'contact' },
+  { key: 'address_fr', labelAr: 'العنوان (فرنسي)', labelFr: 'Adresse (Francais)', icon: MapPin, section: 'contact' },
+  { key: 'hours_ar', labelAr: 'ساعات العمل (عربي)', labelFr: 'Horaires (Arabe)', icon: Clock, section: 'contact' },
+  { key: 'hours_fr', labelAr: 'ساعات العمل (فرنسي)', labelFr: 'Horaires (Francais)', icon: Clock, section: 'contact' },
+  // Social
+  { key: 'facebook_url', labelAr: 'رابط فيسبوك', labelFr: 'Lien Facebook', icon: Globe, type: 'url', section: 'social', placeholder: 'https://facebook.com/...' },
+  { key: 'instagram_url', labelAr: 'رابط إنستغرام', labelFr: 'Lien Instagram', icon: Globe, type: 'url', section: 'social', placeholder: 'https://instagram.com/...' },
+  { key: 'youtube_url', labelAr: 'رابط يوتيوب', labelFr: 'Lien YouTube', icon: Globe, type: 'url', section: 'social', placeholder: 'https://youtube.com/...' },
+  { key: 'twitter_url', labelAr: 'رابط تويتر', labelFr: 'Lien Twitter', icon: Globe, type: 'url', section: 'social', placeholder: 'https://twitter.com/...' },
+  { key: 'map_url', labelAr: 'رابط خرائط جوجل', labelFr: 'Lien Google Maps', icon: MapPin, type: 'url', section: 'social', placeholder: 'https://maps.google.com/...' },
 ];
 
 export default function SettingsPage() {
@@ -111,33 +121,89 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {settingFields.map((field) => (
-          <div
-            key={field.key}
-            className="p-4 rounded-lg bg-[var(--color-charcoal)] border border-[var(--color-gray-dark)]"
-          >
-            <label className="flex items-center gap-2 text-sm text-[var(--color-gray-light)] mb-2 font-arabic">
-              <field.icon className="w-4 h-4 text-[var(--color-gold)]" />
-              {isAr ? field.labelAr : field.labelFr}
-            </label>
-            <input
-              type={field.type || 'text'}
-              value={values[field.key] || ''}
-              onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
-              placeholder={field.placeholder}
-              className="w-full px-4 py-3 bg-[var(--color-black-soft)] border border-[var(--color-gray-dark)] rounded-lg text-white placeholder-[var(--color-gray-medium)] focus:border-[var(--color-gold)] focus:outline-none transition-colors"
-              dir={field.key.endsWith('_ar') ? 'rtl' : 'ltr'}
-            />
-          </div>
-        ))}
+      {/* Branding Section */}
+      <div className="mb-10">
+        <h2 className="text-lg font-bold text-[var(--color-gold)] mb-4 font-arabic flex items-center gap-2">
+          <Tag className="w-5 h-5" />
+          {isAr ? 'الهوية والتسمية' : 'Identite et Noms'}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {settingFields.filter(f => f.section === 'branding').map((field) => (
+            <div key={field.key} className="p-4 rounded-lg bg-[var(--color-charcoal)] border border-[var(--color-gold)]/30">
+              <label className="flex items-center gap-2 text-sm text-[var(--color-gray-light)] mb-2 font-arabic">
+                <field.icon className="w-4 h-4 text-[var(--color-gold)]" />
+                {isAr ? field.labelAr : field.labelFr}
+              </label>
+              <input
+                type="text"
+                value={values[field.key] || ''}
+                onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
+                placeholder={field.placeholder}
+                className="w-full px-4 py-3 bg-[var(--color-black-soft)] border border-[var(--color-gray-dark)] rounded-lg text-white placeholder-[var(--color-gray-medium)] focus:border-[var(--color-gold)] focus:outline-none transition-colors"
+                dir={field.key.endsWith('_ar') ? 'rtl' : 'ltr'}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Contact Section */}
+      <div className="mb-10">
+        <h2 className="text-lg font-bold text-[var(--color-gold)] mb-4 font-arabic flex items-center gap-2">
+          <Phone className="w-5 h-5" />
+          {isAr ? 'معلومات الاتصال' : 'Informations de Contact'}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {settingFields.filter(f => f.section === 'contact').map((field) => (
+            <div key={field.key} className="p-4 rounded-lg bg-[var(--color-charcoal)] border border-[var(--color-gray-dark)]">
+              <label className="flex items-center gap-2 text-sm text-[var(--color-gray-light)] mb-2 font-arabic">
+                <field.icon className="w-4 h-4 text-[var(--color-gold)]" />
+                {isAr ? field.labelAr : field.labelFr}
+              </label>
+              <input
+                type={field.type || 'text'}
+                value={values[field.key] || ''}
+                onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
+                placeholder={field.placeholder}
+                className="w-full px-4 py-3 bg-[var(--color-black-soft)] border border-[var(--color-gray-dark)] rounded-lg text-white placeholder-[var(--color-gray-medium)] focus:border-[var(--color-gold)] focus:outline-none transition-colors"
+                dir={field.key.endsWith('_ar') ? 'rtl' : 'ltr'}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Social Section */}
+      <div className="mb-10">
+        <h2 className="text-lg font-bold text-[var(--color-gold)] mb-4 font-arabic flex items-center gap-2">
+          <Globe className="w-5 h-5" />
+          {isAr ? 'الروابط الاجتماعية' : 'Liens Sociaux'}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {settingFields.filter(f => f.section === 'social').map((field) => (
+            <div key={field.key} className="p-4 rounded-lg bg-[var(--color-charcoal)] border border-[var(--color-gray-dark)]">
+              <label className="flex items-center gap-2 text-sm text-[var(--color-gray-light)] mb-2 font-arabic">
+                <field.icon className="w-4 h-4 text-[var(--color-gold)]" />
+                {isAr ? field.labelAr : field.labelFr}
+              </label>
+              <input
+                type={field.type || 'text'}
+                value={values[field.key] || ''}
+                onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
+                placeholder={field.placeholder}
+                className="w-full px-4 py-3 bg-[var(--color-black-soft)] border border-[var(--color-gray-dark)] rounded-lg text-white placeholder-[var(--color-gray-medium)] focus:border-[var(--color-gold)] focus:outline-none transition-colors"
+                dir="ltr"
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-8 p-4 rounded-lg bg-[var(--color-gold)]/10 border border-[var(--color-gold)]/20">
         <p className="text-sm text-[var(--color-gold)] font-arabic">
           {isAr
-            ? 'هذه الإعدادات تظهر في صفحة الاتصال وأسفل الموقع (Footer). بعد الحفظ، قم بتحديث الصفحة لرؤية التغييرات.'
-            : 'Ces parametres apparaissent sur la page de contact et dans le pied de page. Apres l\'enregistrement, actualisez la page pour voir les changements.'}
+            ? 'هذه الإعدادات تظهر في جميع صفحات الموقع. بعد الحفظ، قم بتحديث الصفحة لرؤية التغييرات.'
+            : 'Ces parametres apparaissent sur toutes les pages du site. Apres l\'enregistrement, actualisez la page pour voir les changements.'}
         </p>
       </div>
     </div>

@@ -6,9 +6,11 @@ import { ChevronDown, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 export default function HeroSection() {
   const { t, isArabic } = useLanguage();
+  const { settings } = useSiteSettings();
   const { scrollY } = useScroll();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -163,7 +165,7 @@ export default function HeroSection() {
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass border border-[var(--color-gold)]/30">
             <span className="w-3 h-3 rounded-full bg-[var(--color-red-bright)] animate-pulse" />
             <span className={cn('text-[var(--color-gold)]', isArabic && 'font-arabic')}>
-              {isArabic ? 'افتتاح نادي البرنوصي السينمائي' : 'Cine-Club Bernoussi Now Open'}
+              {isArabic ? `افتتاح ${settings.club_name_ar}` : `${settings.club_name_fr} Now Open`}
             </span>
           </div>
         </motion.div>

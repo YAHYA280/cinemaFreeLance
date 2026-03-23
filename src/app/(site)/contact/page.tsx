@@ -370,7 +370,7 @@ export default function ContactPage() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-gold)]/20 border border-[var(--color-gold)]/50 mb-6">
               <Film className="w-5 h-5 text-[var(--color-gold)]" />
               <span className="text-[var(--color-gold)] font-medium">
-                {isArabic ? 'نادي البرنوصي السينمائي' : 'Cine-Club Bernoussi'}
+                {isArabic ? settings.club_name_ar : settings.club_name_fr}
               </span>
             </div>
 

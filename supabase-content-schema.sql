@@ -223,7 +223,7 @@ INSERT INTO timeline_events (year, title_ar, title_fr, description_ar, descripti
 ('2018', 'أول إنتاج مسرحي', 'Premiere production theatrale', 'تقديم أول عمل مسرحي للفرقة', 'Presentation de la premiere oeuvre theatrale de la troupe', 2),
 ('2020', 'إطلاق برامج التكوين', 'Lancement des programmes de formation', 'بدء البرامج التكوينية في مهن السينما', 'Debut des programmes de formation aux metiers du cinema', 3),
 ('2023', 'شراكات استراتيجية', 'Partenariats strategiques', 'توقيع اتفاقيات شراكة مع المركز السينمائي المغربي ووزارة الثقافة', 'Signature d''accords de partenariat avec le CCM et le Ministere de la Culture', 4),
-('2024', 'افتتاح النادي السينمائي', 'Inauguration du Cine-Club', 'افتتاح نادي البرنوصي السينمائي بحضور نخبة من الفنانين والمثقفين', 'Inauguration du Cine-Club Bernoussi en presence d''artistes et d''intellectuels', 5);
+('2024', 'افتتاح النادي السينمائي', 'Inauguration du Cine-Club', 'افتتاح نادي سينما السلام البرنوصي بحضور نخبة من الفنانين والمثقفين', 'Inauguration du Cine-Club Bernoussi en presence d''artistes et d''intellectuels', 5);
 
 -- Screenings
 INSERT INTO screenings (title_ar, title_fr, director_ar, director_fr, year, country_ar, country_fr, genre_ar, genre_fr, duration, date, time, discussion_with_ar, discussion_with_fr, synopsis_ar, synopsis_fr, is_opening, is_past, display_order) VALUES
@@ -239,7 +239,7 @@ INSERT INTO masterclasses (title_ar, title_fr, guest_ar, guest_fr, role_ar, role
 
 -- News Articles
 INSERT INTO news_articles (title_ar, title_fr, excerpt_ar, excerpt_fr, source, date, category_ar, category_fr, display_order) VALUES
-('افتتاح نادي البرنوصي السينمائي بعرض فيلم "بامو"', 'Inauguration du Cine-Club Bernoussi avec le film "Bamo"', 'احتضنت دار الشباب سيدي البرنوصي حفل افتتاح النادي السينمائي الجديد بحضور نخبة من الفنانين والمثقفين', 'La Maison des Jeunes de Sidi Bernoussi a accueilli la ceremonie d''inauguration du nouveau cine-club', 'Medi1 TV', '2024-02-10', 'أخبار', 'Actualites', 1),
+('افتتاح نادي سينما السلام البرنوصي بعرض فيلم "بامو"', 'Inauguration du Cine-Club Bernoussi avec le film "Bamo"', 'احتضنت دار الشباب سيدي البرنوصي حفل افتتاح النادي السينمائي الجديد بحضور نخبة من الفنانين والمثقفين', 'La Maison des Jeunes de Sidi Bernoussi a accueilli la ceremonie d''inauguration du nouveau cine-club', 'Medi1 TV', '2024-02-10', 'أخبار', 'Actualites', 1),
 ('جمعية الكرامة تطلق برنامج تكوين مهن السينما', 'Al-Karama lance un programme de formation aux metiers du cinema', 'أعلنت جمعية الكرامة عن إطلاق برنامج تكويني شامل يستهدف الشباب الراغبين في دخول عالم السينما', 'L''association Al-Karama a annonce le lancement d''un programme de formation complet', 'MAP', '2024-02-05', 'تكوين', 'Formation', 2),
 ('لقاء مع الناقد السينمائي حمادي كيروم', 'Rencontre avec le critique de cinema Hamadi Kirom', 'في إطار فعاليات الماستر كلاس، استضافت الجمعية الناقد السينمائي المغربي الشهير حمادي كيروم', 'L''association a accueilli le celebre critique de cinema marocain Hamadi Kirom', 'Al Aoual', '2024-01-28', 'ماستر كلاس', 'Masterclass', 3),
 ('شراكة جديدة مع المركز السينمائي المغربي', 'Nouveau partenariat avec le Centre Cinematographique Marocain', 'وقعت جمعية الكرامة اتفاقية شراكة استراتيجية مع المركز السينمائي المغربي', 'L''association Al-Karama a signe un accord de partenariat strategique avec le CCM', 'Hespress', '2024-01-15', 'شراكات', 'Partenariats', 4);

@@ -15,6 +15,13 @@ export interface SiteSettings {
   youtube_url: string;
   twitter_url: string;
   map_url: string;
+  // Branding
+  club_name_ar: string;
+  club_name_fr: string;
+  association_name_ar: string;
+  association_name_fr: string;
+  association_slogan_ar: string;
+  association_slogan_fr: string;
 }
 
 const defaultSettings: SiteSettings = {
@@ -29,6 +36,12 @@ const defaultSettings: SiteSettings = {
   youtube_url: '#',
   twitter_url: '#',
   map_url: '',
+  club_name_ar: 'نادي سينما السلام البرنوصي',
+  club_name_fr: 'Cine-Club Bernoussi',
+  association_name_ar: 'جمعية الكرامة للمسرح والسينما',
+  association_name_fr: 'Association Al-Karama pour le Theatre et le Cinema',
+  association_slogan_ar: 'للمسرح والسينما',
+  association_slogan_fr: 'Theatre & Cinema',
 };
 
 export function useSiteSettings() {

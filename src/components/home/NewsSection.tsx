@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 const newsItems = [
   {
     id: 1,
-    titleAr: 'افتتاح نادي البرنوصي السينمائي بعرض فيلم "بامو"',
+    titleAr: 'افتتاح نادي سينما السلام البرنوصي بعرض فيلم "بامو"',
     titleFr: 'Inauguration du Cine-Club Bernoussi avec le film "Bamo"',
     excerptAr: 'احتضنت دار الشباب سيدي البرنوصي حفل افتتاح النادي السينمائي الجديد بحضور نخبة من الفنانين والمثقفين...',
     excerptFr: 'La Maison des Jeunes de Sidi Bernoussi a accueilli la ceremonie d\'inauguration du nouveau cine-club en presence d\'artistes et d\'intellectuels...',

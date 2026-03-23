@@ -50,10 +50,10 @@ export default function Footer() {
                 </div>
                 <div className={cn(isArabic && 'font-arabic')}>
                   <h3 className="text-xl font-bold text-[var(--color-gold)]">
-                    {isArabic ? 'جمعية الكرامة' : 'Al-Karama'}
+                    {isArabic ? settings.association_name_ar : settings.association_name_fr}
                   </h3>
                   <p className="text-sm text-[var(--color-silver)]">
-                    {isArabic ? 'للمسرح والسينما' : 'Theatre & Cinema'}
+                    {isArabic ? settings.association_slogan_ar : settings.association_slogan_fr}
                   </p>
                 </div>
               </Link>
@@ -161,7 +161,7 @@ export default function Footer() {
         <div className="container mx-auto px-4">
           <div className={cn('flex flex-col md:flex-row items-center justify-between gap-4', isArabic && 'md:flex-row-reverse')}>
             <p className={cn('text-[var(--color-gray-medium)] text-sm', isArabic && 'font-arabic')}>
-              {new Date().getFullYear()} {isArabic ? 'جمعية الكرامة للمسرح والسينما' : 'Association Al-Karama'} - {t.footer.rights}
+              {new Date().getFullYear()} {isArabic ? settings.association_name_ar : settings.association_name_fr} - {t.footer.rights}
             </p>
             <div className="flex items-center gap-2">
               <span className="text-[var(--color-gold)] text-2xl">★</span>
