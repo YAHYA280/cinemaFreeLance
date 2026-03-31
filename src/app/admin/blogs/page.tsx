@@ -45,8 +45,9 @@ export default function AdminBlogsPage() {
     author_ar: '',
     author_fr: '',
     cover_image: '',
-    published: false,
+    published: true,
   });
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>('');
 
@@ -67,8 +68,9 @@ export default function AdminBlogsPage() {
     setForm({
       title_ar: '', title_fr: '', content_ar: '', content_fr: '',
       excerpt_ar: '', excerpt_fr: '', author_ar: '', author_fr: '',
-      cover_image: '', published: false,
+      cover_image: '', published: true,
     });
+    setSaveMessage(null);
     setImageFile(null);
     setPreview('');
     setEditingBlog(null);
@@ -116,15 +118,21 @@ export default function AdminBlogsPage() {
       };
 
       if (editingBlog) {
-        await supabase.from('blogs').update(payload).eq('id', editingBlog.id);
+        const { error } = await supabase.from('blogs').update(payload).eq('id', editingBlog.id);
+        if (error) throw error;
       } else {
-        await supabase.from('blogs').insert(payload);
+        const { error } = await supabase.from('blogs').insert(payload);
+        if (error) throw error;
       }
 
+      setSaveMessage({ type: 'success', text: isAr ? 'تم الحفظ بنجاح!' : 'Enregistre avec succes!' });
       resetForm();
       fetchBlogs();
+      setTimeout(() => setSaveMessage(null), 3000);
     } catch (err) {
       console.error(err);
+      setSaveMessage({ type: 'error', text: isAr ? 'حدث خطأ أثناء الحفظ' : 'Erreur lors de l\'enregistrement' });
+      setTimeout(() => setSaveMessage(null), 5000);
     }
     setUploading(false);
   };
@@ -166,6 +174,15 @@ export default function AdminBlogsPage() {
 
   return (
     <div className="space-y-6">
+      {/* Toast notification */}
+      {saveMessage && (
+        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 rounded-lg shadow-lg font-arabic text-sm ${
+          saveMessage.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+        }`}>
+          {saveMessage.text}
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-[var(--color-white-off)] font-arabic">

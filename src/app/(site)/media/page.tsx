@@ -25,6 +25,21 @@ interface NewsArticle {
   display_order: number;
 }
 
+interface VideoItem {
+  id: string;
+  title_ar: string;
+  title_fr: string;
+  description_ar: string;
+  description_fr: string;
+  video_url: string;
+  thumbnail_url: string;
+  category_ar: string;
+  category_fr: string;
+  duration: string;
+  published: boolean;
+  display_order: number;
+}
+
 const fallbackNewsArticles: NewsArticle[] = [
   { id: '1', title_ar: 'افتتاح نادي سينما السلام البرنوصي بعرض فيلم "بامو"', title_fr: 'Inauguration du Cine-Club Bernoussi avec le film "Bamo"', excerpt_ar: 'احتضنت دار الشباب سيدي البرنوصي حفل افتتاح النادي السينمائي الجديد بحضور نخبة من الفنانين والمثقفين، حيث عرض فيلم "بامو" للمخرج محمد مفتكر تلاه نقاش ثري مع الناقد حمادي كيروم.', excerpt_fr: 'La Maison des Jeunes de Sidi Bernoussi a accueilli la ceremonie d\'inauguration du nouveau cine-club en presence d\'artistes et d\'intellectuels.', source: 'Medi1 TV', date: '2024-02-10', category_ar: 'أخبار', category_fr: 'Actualites', display_order: 1 },
   { id: '2', title_ar: 'جمعية الكرامة تطلق برنامج تكوين مهن السينما', title_fr: 'Al-Karama lance un programme de formation aux metiers du cinema', excerpt_ar: 'أعلنت جمعية الكرامة للمسرح والسينما عن إطلاق برنامج تكويني شامل يستهدف الشباب الراغبين في دخول عالم السينما.', excerpt_fr: 'L\'association Al-Karama pour le Theatre et le Cinema a annonce le lancement d\'un programme de formation complet.', source: 'MAP', date: '2024-02-05', category_ar: 'تكوين', category_fr: 'Formation', display_order: 2 },
@@ -43,27 +58,24 @@ const galleryImages = [
   { id: 8, category: 'cinema', event: { ar: 'نقاش سينمائي', fr: 'Debat Cinematographique' } },
 ];
 
-const videos = [
+const fallbackVideos: VideoItem[] = [
   {
-    id: 1,
-    titleAr: 'حفل افتتاح النادي السينمائي',
-    titleFr: 'Ceremonie d\'inauguration du Cine-Club',
-    duration: '15:30',
-    category: { ar: 'فعاليات', fr: 'Evenements' },
+    id: '1', title_ar: 'حفل افتتاح النادي السينمائي', title_fr: 'Ceremonie d\'inauguration du Cine-Club',
+    description_ar: '', description_fr: '', video_url: '', thumbnail_url: '',
+    duration: '15:30', category_ar: 'فعاليات', category_fr: 'Evenements',
+    published: true, display_order: 1,
   },
   {
-    id: 2,
-    titleAr: 'لقاء مع حمادي كيروم',
-    titleFr: 'Rencontre avec Hamadi Kirom',
-    duration: '45:00',
-    category: { ar: 'ماستر كلاس', fr: 'Masterclass' },
+    id: '2', title_ar: 'لقاء مع حمادي كيروم', title_fr: 'Rencontre avec Hamadi Kirom',
+    description_ar: '', description_fr: '', video_url: '', thumbnail_url: '',
+    duration: '45:00', category_ar: 'ماستر كلاس', category_fr: 'Masterclass',
+    published: true, display_order: 2,
   },
   {
-    id: 3,
-    titleAr: 'كواليس مسرحية صمت الكلام',
-    titleFr: 'Coulisses de Le Silence des Mots',
-    duration: '08:45',
-    category: { ar: 'مسرح', fr: 'Theatre' },
+    id: '3', title_ar: 'كواليس مسرحية صمت الكلام', title_fr: 'Coulisses de Le Silence des Mots',
+    description_ar: '', description_fr: '', video_url: '', thumbnail_url: '',
+    duration: '08:45', category_ar: 'مسرح', category_fr: 'Theatre',
+    published: true, display_order: 3,
   },
 ];
 
@@ -73,7 +85,9 @@ type GalleryFilter = 'all' | 'cinema' | 'theatre' | 'training';
 export default function MediaPage() {
   const { t, isArabic } = useLanguage();
   const { data: dbNews } = useSupabaseData<NewsArticle>('news_articles');
+  const { data: dbVideos } = useSupabaseData<VideoItem>('videos');
   const newsArticles = dbNews.length > 0 ? dbNews : fallbackNewsArticles;
+  const videos = dbVideos.length > 0 ? dbVideos : fallbackVideos;
 
   const [activeTab, setActiveTab] = useState<TabType>('print');
   const [galleryFilter, setGalleryFilter] = useState<GalleryFilter>('all');
@@ -277,37 +291,56 @@ export default function MediaPage() {
                   {isArabic ? t.media.tvChannelsDesc : 'Reportages et interviews televisees'}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {videos.map((video, index) => (
+                  {videos.map((video, index) => {
+                    const isYouTube = video.video_url && (video.video_url.includes('youtube') || video.video_url.includes('youtu.be'));
+                    const ytMatch = video.video_url?.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/);
+                    const thumb = video.thumbnail_url || (ytMatch ? `https://img.youtube.com/vi/${ytMatch[1]}/mqdefault.jpg` : null);
+
+                    return (
                     <motion.div
                       key={video.id}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
-                      className="group card-cinematic overflow-hidden"
+                      className="group card-cinematic overflow-hidden cursor-pointer"
+                      onClick={() => {
+                        if (isYouTube && ytMatch) {
+                          window.open(`https://www.youtube.com/watch?v=${ytMatch[1]}`, '_blank');
+                        } else if (video.video_url) {
+                          window.open(video.video_url, '_blank');
+                        }
+                      }}
                     >
                       <div className="relative aspect-video bg-gradient-to-br from-[var(--color-crimson)] to-[var(--color-black-pure)]">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Tv className="w-16 h-16 text-[var(--color-gold)]/20" />
-                        </div>
+                        {thumb ? (
+                          <img src={thumb} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Tv className="w-16 h-16 text-[var(--color-gold)]/20" />
+                          </div>
+                        )}
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                           <div className="w-16 h-16 rounded-full bg-[var(--color-gold)] flex items-center justify-center">
                             <Play className="w-8 h-8 text-[var(--color-black-rich)]" />
                           </div>
                         </div>
-                        <div className={cn('absolute bottom-4 px-2 py-1 bg-black/80 text-white text-xs rounded', isArabic ? 'left-4' : 'right-4')}>
-                          {video.duration}
-                        </div>
+                        {video.duration && (
+                          <div className={cn('absolute bottom-4 px-2 py-1 bg-black/80 text-white text-xs rounded', isArabic ? 'left-4' : 'right-4')}>
+                            {video.duration}
+                          </div>
+                        )}
                       </div>
                       <div className={cn('p-4', isArabic && 'text-right')}>
                         <span className="text-xs text-[var(--color-crimson)]">
-                          {isArabic ? video.category.ar : video.category.fr}
+                          {isArabic ? video.category_ar : video.category_fr}
                         </span>
                         <h3 className={cn('text-lg font-bold text-white mt-1', isArabic && 'font-arabic')}>
-                          {isArabic ? video.titleAr : video.titleFr}
+                          {isArabic ? video.title_ar : video.title_fr}
                         </h3>
                       </div>
                     </motion.div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
             )}

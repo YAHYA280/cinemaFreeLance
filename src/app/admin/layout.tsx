@@ -11,6 +11,7 @@ import {
   Layers,
   Database,
   Settings,
+  Video,
   ArrowLeft,
   LogOut,
   Menu,
@@ -44,6 +45,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin/content', label: isAr ? 'إدارة المحتوى' : 'Contenu', icon: Database },
     { href: '/admin/photos', label: t.sidebar.photos, icon: Image },
     { href: '/admin/blogs', label: t.sidebar.blogs, icon: FileText },
+    { href: '/admin/videos', label: isAr ? 'الفيديوهات' : 'Videos', icon: Video },
     { href: '/admin/sections', label: t.sidebar.sections, icon: Layers },
     { href: '/admin/settings', label: isAr ? 'الإعدادات' : 'Parametres', icon: Settings },
   ];
