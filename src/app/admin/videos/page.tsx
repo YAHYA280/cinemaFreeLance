@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
+import { adminTranslations } from '@/i18n/admin-translations';
+import { getSupabaseErrorMessage } from '@/utils/supabase/error-handler';
 import { Plus, Trash2, Edit3, X, Eye, EyeOff, Upload, Loader2, Video, Link as LinkIcon } from 'lucide-react';
 
 interface VideoItem {
@@ -23,6 +25,7 @@ interface VideoItem {
 
 export default function AdminVideosPage() {
   const { language } = useLanguage();
+  const t = adminTranslations[language];
   const isAr = language === 'ar';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const thumbnailInputRef = useRef<HTMLInputElement>(null);
@@ -134,13 +137,13 @@ export default function AdminVideosPage() {
         if (error) throw error;
       }
 
-      setSaveMessage({ type: 'success', text: isAr ? 'تم الحفظ بنجاح!' : 'Enregistre avec succes!' });
+      setSaveMessage({ type: 'success', text: t.common.success });
       resetForm();
       fetchVideos();
       setTimeout(() => setSaveMessage(null), 3000);
     } catch (err) {
       console.error(err);
-      setSaveMessage({ type: 'error', text: isAr ? 'حدث خطأ أثناء الحفظ' : 'Erreur lors de l\'enregistrement' });
+      setSaveMessage({ type: 'error', text: getSupabaseErrorMessage(err, language) });
       setTimeout(() => setSaveMessage(null), 5000);
     }
     setUploading(false);
@@ -162,7 +165,7 @@ export default function AdminVideosPage() {
   };
 
   const handleDelete = async (video: VideoItem) => {
-    if (!confirm(isAr ? 'هل أنت متأكد من الحذف؟' : 'Confirmer la suppression?')) return;
+    if (!confirm(t.videos.confirmDelete)) return;
     await supabase.from('videos').delete().eq('id', video.id);
     fetchVideos();
   };
@@ -197,14 +200,14 @@ export default function AdminVideosPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-[var(--color-white-off)] font-arabic">
-          {isAr ? 'إدارة الفيديوهات' : 'Gestion des Videos'}
+          {t.videos.title}
         </h1>
         <button
           onClick={() => { resetForm(); setShowForm(true); }}
           className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-red-primary)] text-white font-semibold rounded-lg hover:bg-[var(--color-red-bright)] transition-all font-arabic"
         >
           <Plus className="w-5 h-5" />
-          {isAr ? 'إضافة فيديو' : 'Ajouter une video'}
+          {t.videos.addNew}
         </button>
       </div>
 
@@ -217,7 +220,7 @@ export default function AdminVideosPage() {
           >
             <div className="flex items-center justify-between p-6 border-b border-[var(--color-gray-dark)]">
               <h2 className="text-lg font-bold text-white font-arabic">
-                {editingVideo ? (isAr ? 'تعديل فيديو' : 'Modifier la video') : (isAr ? 'إضافة فيديو' : 'Ajouter une video')}
+                {editingVideo ? t.videos.edit : t.videos.addNew}
               </h2>
               <button onClick={resetForm} className="text-[var(--color-gray-light)] hover:text-white">
                 <X className="w-5 h-5" />
@@ -237,7 +240,7 @@ export default function AdminVideosPage() {
                   }`}
                 >
                   <LinkIcon className="w-4 h-4" />
-                  {isAr ? 'رابط يوتيوب / خارجي' : 'Lien YouTube / externe'}
+                  {t.videos.urlMode}
                 </button>
                 <button
                   type="button"
@@ -249,7 +252,7 @@ export default function AdminVideosPage() {
                   }`}
                 >
                   <Upload className="w-4 h-4" />
-                  {isAr ? 'رفع فيديو' : 'Uploader une video'}
+                  {t.videos.uploadMode}
                 </button>
               </div>
 
@@ -257,7 +260,7 @@ export default function AdminVideosPage() {
               {uploadMode === 'url' ? (
                 <div>
                   <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">
-                    {isAr ? 'رابط الفيديو (يوتيوب أو رابط مباشر)' : 'URL de la video (YouTube ou lien direct)'}
+                    {t.videos.videoUrl}
                   </label>
                   <input
                     type="url"
@@ -283,7 +286,7 @@ export default function AdminVideosPage() {
                     <div className="space-y-2">
                       <Upload className="w-8 h-8 mx-auto text-[var(--color-gray-medium)]" />
                       <p className="text-sm text-[var(--color-gray-light)] font-arabic">
-                        {isAr ? 'اضغط لرفع فيديو (MP4, WebM)' : 'Cliquez pour uploader (MP4, WebM)'}
+                        {t.videos.uploadHint}
                       </p>
                     </div>
                   )}
@@ -306,7 +309,7 @@ export default function AdminVideosPage() {
                   <div className="space-y-1">
                     <Upload className="w-6 h-6 mx-auto text-[var(--color-gray-medium)]" />
                     <p className="text-xs text-[var(--color-gray-light)] font-arabic">
-                      {isAr ? 'صورة مصغرة (اختياري - يتم استخراجها تلقائيا من يوتيوب)' : 'Miniature (optionnel - extraite auto de YouTube)'}
+                      {t.videos.thumbnail}
                     </p>
                   </div>
                 )}
@@ -316,11 +319,11 @@ export default function AdminVideosPage() {
               {/* Title */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{isAr ? 'العنوان (عربي)' : 'Titre (Arabe)'}</label>
+                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{t.videos.titleAr}</label>
                   <input type="text" value={form.title_ar} onChange={e => setForm({ ...form, title_ar: e.target.value })} className="input-cinematic font-arabic" dir="rtl" required />
                 </div>
                 <div>
-                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{isAr ? 'العنوان (فرنسي)' : 'Titre (Francais)'}</label>
+                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{t.videos.titleFr}</label>
                   <input type="text" value={form.title_fr} onChange={e => setForm({ ...form, title_fr: e.target.value })} className="input-cinematic" dir="ltr" required />
                 </div>
               </div>
@@ -328,11 +331,11 @@ export default function AdminVideosPage() {
               {/* Description */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{isAr ? 'الوصف (عربي)' : 'Description (Arabe)'}</label>
+                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{t.videos.descriptionAr}</label>
                   <textarea value={form.description_ar} onChange={e => setForm({ ...form, description_ar: e.target.value })} className="input-cinematic font-arabic h-20 resize-none" dir="rtl" />
                 </div>
                 <div>
-                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{isAr ? 'الوصف (فرنسي)' : 'Description (Francais)'}</label>
+                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{t.videos.descriptionFr}</label>
                   <textarea value={form.description_fr} onChange={e => setForm({ ...form, description_fr: e.target.value })} className="input-cinematic h-20 resize-none" dir="ltr" />
                 </div>
               </div>
@@ -340,22 +343,22 @@ export default function AdminVideosPage() {
               {/* Category & Duration */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{isAr ? 'التصنيف (عربي)' : 'Categorie (Arabe)'}</label>
+                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{t.videos.categoryAr}</label>
                   <input type="text" value={form.category_ar} onChange={e => setForm({ ...form, category_ar: e.target.value })} className="input-cinematic font-arabic" dir="rtl" placeholder={isAr ? 'مثال: فعاليات' : 'Ex: Evenements'} />
                 </div>
                 <div>
-                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{isAr ? 'التصنيف (فرنسي)' : 'Categorie (Francais)'}</label>
+                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{t.videos.categoryFr}</label>
                   <input type="text" value={form.category_fr} onChange={e => setForm({ ...form, category_fr: e.target.value })} className="input-cinematic" dir="ltr" placeholder="Ex: Evenements" />
                 </div>
                 <div>
-                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{isAr ? 'المدة' : 'Duree'}</label>
+                  <label className="block text-sm text-[var(--color-gray-light)] mb-1 font-arabic">{t.videos.duration}</label>
                   <input type="text" value={form.duration} onChange={e => setForm({ ...form, duration: e.target.value })} className="input-cinematic" dir="ltr" placeholder="15:30" />
                 </div>
               </div>
 
               {/* Published toggle */}
               <div className="flex items-center gap-3">
-                <label className="text-sm text-[var(--color-gray-light)] font-arabic">{isAr ? 'منشور' : 'Publie'}</label>
+                <label className="text-sm text-[var(--color-gray-light)] font-arabic">{t.videos.published}</label>
                 <button
                   type="button"
                   onClick={() => setForm({ ...form, published: !form.published })}
@@ -377,14 +380,14 @@ export default function AdminVideosPage() {
                   className="flex-1 flex items-center justify-center gap-2 py-3 bg-[var(--color-red-primary)] text-white font-semibold rounded-lg hover:bg-[var(--color-red-bright)] disabled:opacity-50 transition-all font-arabic"
                 >
                   {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-                  {uploading ? (isAr ? 'جاري الحفظ...' : 'Enregistrement...') : (isAr ? 'حفظ' : 'Enregistrer')}
+                  {uploading ? t.videos.saving : t.videos.save}
                 </button>
                 <button
                   type="button"
                   onClick={resetForm}
                   className="px-6 py-3 border border-[var(--color-gray-dark)] text-[var(--color-gray-light)] rounded-lg hover:bg-[var(--color-black-soft)] transition-all font-arabic"
                 >
-                  {isAr ? 'إلغاء' : 'Annuler'}
+                  {t.videos.cancel}
                 </button>
               </div>
             </form>
@@ -399,7 +402,7 @@ export default function AdminVideosPage() {
         </div>
       ) : videos.length === 0 ? (
         <div className="text-center py-16 text-[var(--color-gray-medium)] font-arabic">
-          {isAr ? 'لا توجد فيديوهات بعد' : 'Aucune video pour le moment'}
+          {t.videos.noVideos}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -430,7 +433,7 @@ export default function AdminVideosPage() {
                         ? 'bg-green-900/30 text-green-400 border border-green-800'
                         : 'bg-yellow-900/30 text-yellow-400 border border-yellow-800'
                     }`}>
-                      {video.published ? (isAr ? 'منشور' : 'Publie') : (isAr ? 'مسودة' : 'Brouillon')}
+                      {video.published ? t.videos.published : t.videos.draft}
                     </span>
                   </div>
                 </div>

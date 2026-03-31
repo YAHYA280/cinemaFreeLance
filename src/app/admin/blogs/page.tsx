@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
 import { adminTranslations } from '@/i18n/admin-translations';
 import { Plus, Trash2, Edit3, X, Eye, EyeOff, Upload, Loader2 } from 'lucide-react';
+import { getSupabaseErrorMessage } from '@/utils/supabase/error-handler';
 
 interface Blog {
   id: string;
@@ -131,7 +132,7 @@ export default function AdminBlogsPage() {
       setTimeout(() => setSaveMessage(null), 3000);
     } catch (err) {
       console.error(err);
-      setSaveMessage({ type: 'error', text: isAr ? 'حدث خطأ أثناء الحفظ' : 'Erreur lors de l\'enregistrement' });
+      setSaveMessage({ type: 'error', text: getSupabaseErrorMessage(err, language) });
       setTimeout(() => setSaveMessage(null), 5000);
     }
     setUploading(false);

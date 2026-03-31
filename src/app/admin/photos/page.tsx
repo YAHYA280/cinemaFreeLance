@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
 import { adminTranslations } from '@/i18n/admin-translations';
 import { Plus, Trash2, Edit3, X, Upload, Loader2 } from 'lucide-react';
+import { getSupabaseErrorMessage } from '@/utils/supabase/error-handler';
 
 interface Photo {
   id: string;
@@ -44,6 +45,7 @@ export default function AdminPhotosPage() {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>('');
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const supabase = createClient();
 
@@ -94,30 +96,31 @@ export default function AdminPhotosPage() {
         imageUrl = await uploadImage(imageFile);
       }
 
+      const payload = {
+        title_ar: form.title_ar,
+        title_fr: form.title_fr,
+        description_ar: form.description_ar,
+        description_fr: form.description_fr,
+        category: form.category,
+        image_url: imageUrl,
+      };
+
       if (editingPhoto) {
-        await supabase.from('photos').update({
-          title_ar: form.title_ar,
-          title_fr: form.title_fr,
-          description_ar: form.description_ar,
-          description_fr: form.description_fr,
-          category: form.category,
-          image_url: imageUrl,
-        }).eq('id', editingPhoto.id);
+        const { error } = await supabase.from('photos').update(payload).eq('id', editingPhoto.id);
+        if (error) throw error;
       } else {
-        await supabase.from('photos').insert({
-          title_ar: form.title_ar,
-          title_fr: form.title_fr,
-          description_ar: form.description_ar,
-          description_fr: form.description_fr,
-          category: form.category,
-          image_url: imageUrl,
-        });
+        const { error } = await supabase.from('photos').insert(payload);
+        if (error) throw error;
       }
 
+      setSaveMessage({ type: 'success', text: t.common.success });
       resetForm();
       fetchPhotos();
+      setTimeout(() => setSaveMessage(null), 3000);
     } catch (err) {
       console.error(err);
+      setSaveMessage({ type: 'error', text: getSupabaseErrorMessage(err, language) });
+      setTimeout(() => setSaveMessage(null), 5000);
     }
     setUploading(false);
   };
@@ -158,6 +161,15 @@ export default function AdminPhotosPage() {
 
   return (
     <div className="space-y-6">
+      {/* Toast notification */}
+      {saveMessage && (
+        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 rounded-lg shadow-lg font-arabic text-sm ${
+          saveMessage.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+        }`}>
+          {saveMessage.text}
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-[var(--color-white-off)] font-arabic">
