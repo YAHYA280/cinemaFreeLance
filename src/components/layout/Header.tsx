@@ -157,7 +157,7 @@ export default function Header() {
               exit={{ x: isArabic ? '100%' : '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className={cn(
-                'absolute top-0 bottom-0 w-80 bg-[var(--color-charcoal)] border-[var(--color-gold)]/20',
+                'absolute top-0 bottom-0 w-[75vw] max-w-80 bg-[var(--color-charcoal)] border-[var(--color-gold)]/20',
                 isArabic ? 'right-0 border-l' : 'left-0 border-r'
               )}
             >
@@ -174,7 +174,7 @@ export default function Header() {
                         href={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={cn(
-                          'block py-3 px-4 text-lg text-[var(--color-silver)] hover:text-[var(--color-gold)] hover:bg-[var(--color-gold)]/5 rounded transition-colors',
+                          'block py-3 px-4 text-base sm:text-lg text-[var(--color-silver)] hover:text-[var(--color-gold)] hover:bg-[var(--color-gold)]/5 rounded transition-colors',
                           isArabic && 'font-arabic text-right'
                         )}
                       >

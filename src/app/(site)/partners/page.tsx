@@ -63,7 +63,7 @@ export default function PartnersPage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative py-24 bg-curtain overflow-hidden">
+      <section ref={heroRef} className="relative py-12 sm:py-16 md:py-24 bg-curtain overflow-hidden">
         <div className="absolute inset-0 bg-spotlight" />
         <div className="absolute inset-0 film-grain" />
 
@@ -86,7 +86,7 @@ export default function PartnersPage() {
             </motion.div>
 
             <h1 className={cn(
-              'text-4xl md:text-5xl lg:text-6xl font-bold mb-6',
+              'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
             )}>
               {t.partners.title}
@@ -100,7 +100,7 @@ export default function PartnersPage() {
       </section>
 
       {/* Strategic Partners */}
-      <section ref={partnersRef} className="py-20 bg-[var(--color-black-soft)]">
+      <section ref={partnersRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-soft)]">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -117,7 +117,7 @@ export default function PartnersPage() {
             <div className="w-24 h-1 mx-auto bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent" />
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-16 md:mb-20">
             {strategicPartners.map((partner, index) => (
               <motion.div
                 key={partner.id}
@@ -212,7 +212,7 @@ export default function PartnersPage() {
       </section>
 
       {/* Testimonials Section */}
-      <section ref={testimonialsRef} className="py-20 bg-[var(--color-black-rich)]">
+      <section ref={testimonialsRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-rich)]">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

@@ -32,8 +32,8 @@ export default function StickyRegisterButton() {
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsModalOpen(true)}
             className={cn(
-              'fixed z-40 flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-bright)] text-[var(--color-black-rich)] font-bold shadow-lg animate-pulse-glow',
-              isArabic ? 'top-24 left-4 flex-row-reverse font-arabic' : 'top-24 right-4'
+              'fixed z-40 flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-bright)] text-[var(--color-black-rich)] font-bold shadow-lg animate-pulse-glow',
+              isArabic ? 'bottom-4 sm:top-24 sm:bottom-auto left-4 flex-row-reverse font-arabic' : 'bottom-4 sm:top-24 sm:bottom-auto right-4'
             )}
           >
             <Ticket className="w-5 h-5" />

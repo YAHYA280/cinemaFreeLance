@@ -120,7 +120,7 @@ export default function MediaPage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative py-24 bg-curtain overflow-hidden">
+      <section ref={heroRef} className="relative py-12 sm:py-16 md:py-24 bg-curtain overflow-hidden">
         <div className="absolute inset-0 bg-spotlight" />
         <div className="absolute inset-0 film-grain" />
 
@@ -132,7 +132,7 @@ export default function MediaPage() {
             className={cn('text-center', isArabic && 'font-arabic')}
           >
             <h1 className={cn(
-              'text-4xl md:text-5xl lg:text-6xl font-bold mb-6',
+              'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
             )}>
               {t.media.title}
@@ -149,7 +149,7 @@ export default function MediaPage() {
       {/* Tabs Navigation */}
       <section className="sticky top-20 z-30 bg-[var(--color-charcoal)] border-b border-[var(--color-gold)]/10">
         <div className="container mx-auto px-4">
-          <div className={cn('flex items-center justify-center gap-4 py-4', isArabic && 'flex-row-reverse')}>
+          <div className={cn('flex flex-wrap items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4', isArabic && 'flex-row-reverse')}>
             {tabs.map((tab) => (
               <motion.button
                 key={tab.id}
@@ -157,7 +157,7 @@ export default function MediaPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  'flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all',
+                  'flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all',
                   activeTab === tab.id
                     ? 'bg-[var(--color-gold)] text-[var(--color-black-rich)]'
                     : 'glass text-[var(--color-silver)] hover:text-white',
@@ -173,7 +173,7 @@ export default function MediaPage() {
       </section>
 
       {/* Content Section */}
-      <section ref={contentRef} className="py-16 bg-[var(--color-black-soft)]">
+      <section ref={contentRef} className="py-8 sm:py-12 md:py-16 bg-[var(--color-black-soft)]">
         <div className="container mx-auto px-4">
           <AnimatePresence mode="wait">
             {/* Print Press Tab */}
@@ -349,7 +349,7 @@ export default function MediaPage() {
       </section>
 
       {/* Dynamic Photo Gallery Section */}
-      <section className="py-16 bg-[var(--color-black-rich)]">
+      <section className="py-8 sm:py-12 md:py-16 bg-[var(--color-black-rich)]">
         <div className="container mx-auto px-4">
           <h2 className={cn('text-2xl md:text-3xl font-bold text-center mb-8', isArabic ? 'text-gradient-gold font-arabic' : 'heading-display text-white')}>
             {t.media.gallery}

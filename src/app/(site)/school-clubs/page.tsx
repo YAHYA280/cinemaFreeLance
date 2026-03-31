@@ -117,7 +117,7 @@ export default function TrainingPage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative py-24 bg-curtain overflow-hidden">
+      <section ref={heroRef} className="relative py-12 sm:py-16 md:py-24 bg-curtain overflow-hidden">
         <div className="absolute inset-0 bg-spotlight" />
         <div className="absolute inset-0 film-grain" />
 
@@ -140,7 +140,7 @@ export default function TrainingPage() {
             </motion.div>
 
             <h1 className={cn(
-              'text-4xl md:text-5xl lg:text-6xl font-bold mb-6',
+              'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
             )}>
               {t.training.title}
@@ -158,7 +158,7 @@ export default function TrainingPage() {
       {/* Stats Section */}
       <section ref={statsRef} className="py-12 bg-[var(--color-charcoal)]">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.value}

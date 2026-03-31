@@ -96,7 +96,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative py-24 bg-curtain overflow-hidden">
+      <section ref={heroRef} className="relative py-12 sm:py-16 md:py-24 bg-curtain overflow-hidden">
         <div className="absolute inset-0 bg-spotlight" />
         <div className="absolute inset-0 film-grain" />
 
@@ -115,7 +115,7 @@ export default function AboutPage() {
             </div>
 
             <h1 className={cn(
-              'text-4xl md:text-5xl lg:text-6xl font-bold mb-6',
+              'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
             )}>
               {t.about.title}
@@ -130,16 +130,16 @@ export default function AboutPage() {
         </div>
 
         {/* Corner ornaments */}
-        <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-[var(--color-gold)]/30" />
-        <div className="absolute top-8 right-8 w-16 h-16 border-r-2 border-t-2 border-[var(--color-gold)]/30" />
-        <div className="absolute bottom-8 left-8 w-16 h-16 border-l-2 border-b-2 border-[var(--color-gold)]/30" />
-        <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-[var(--color-gold)]/30" />
+        <div className="absolute top-8 left-8 w-8 h-8 sm:w-16 sm:h-16 border-l-2 border-t-2 border-[var(--color-gold)]/30 hidden sm:block" />
+        <div className="absolute top-8 right-8 w-8 h-8 sm:w-16 sm:h-16 border-r-2 border-t-2 border-[var(--color-gold)]/30 hidden sm:block" />
+        <div className="absolute bottom-8 left-8 w-8 h-8 sm:w-16 sm:h-16 border-l-2 border-b-2 border-[var(--color-gold)]/30 hidden sm:block" />
+        <div className="absolute bottom-8 right-8 w-8 h-8 sm:w-16 sm:h-16 border-r-2 border-b-2 border-[var(--color-gold)]/30 hidden sm:block" />
       </section>
 
       {/* Identity Card Section */}
-      <section ref={missionRef} className="py-20 bg-[var(--color-black-soft)]">
+      <section ref={missionRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-soft)]">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
             {/* Identity Card */}
             <motion.div
               initial={{ opacity: 0, x: isArabic ? 50 : -50 }}
@@ -244,7 +244,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline Section */}
-      <section ref={timelineRef} className="py-20 bg-[var(--color-black-rich)]">
+      <section ref={timelineRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-rich)]">
         <div className="container mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -304,7 +304,7 @@ export default function AboutPage() {
       </section>
 
       {/* Board Members Section */}
-      <section ref={boardRef} className="py-20 bg-[var(--color-charcoal)]">
+      <section ref={boardRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-charcoal)]">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -354,7 +354,7 @@ export default function AboutPage() {
       </section>
 
       {/* Documents Section */}
-      <section ref={docsRef} className="py-20 bg-[var(--color-black-rich)]">
+      <section ref={docsRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-rich)]">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

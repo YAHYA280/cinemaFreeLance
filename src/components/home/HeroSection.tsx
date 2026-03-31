@@ -46,8 +46,8 @@ export default function HeroSection() {
         {/* Vignette */}
         <div className="absolute inset-0 bg-vignette z-20" />
 
-        {/* Animated film strips on sides */}
-        <div className="absolute top-0 bottom-0 left-0 w-12 bg-[var(--color-black-pure)] opacity-80 z-10">
+        {/* Animated film strips on sides - hidden on mobile */}
+        <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-12 bg-[var(--color-black-pure)] opacity-80 z-10 hidden sm:block">
           <div className="h-full flex flex-col justify-around py-8">
             {[...Array(20)].map((_, i) => (
               <motion.div
@@ -55,12 +55,12 @@ export default function HeroSection() {
                 initial={{ opacity: 0.3 }}
                 animate={{ opacity: [0.3, 0.6, 0.3] }}
                 transition={{ duration: 2, delay: i * 0.1, repeat: Infinity }}
-                className="w-8 h-4 mx-auto bg-[var(--color-charcoal)] rounded-sm"
+                className="w-6 sm:w-8 h-3 sm:h-4 mx-auto bg-[var(--color-charcoal)] rounded-sm"
               />
             ))}
           </div>
         </div>
-        <div className="absolute top-0 bottom-0 right-0 w-12 bg-[var(--color-black-pure)] opacity-80 z-10">
+        <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-12 bg-[var(--color-black-pure)] opacity-80 z-10 hidden sm:block">
           <div className="h-full flex flex-col justify-around py-8">
             {[...Array(20)].map((_, i) => (
               <motion.div
@@ -68,7 +68,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0.3 }}
                 animate={{ opacity: [0.3, 0.6, 0.3] }}
                 transition={{ duration: 2, delay: i * 0.1, repeat: Infinity }}
-                className="w-8 h-4 mx-auto bg-[var(--color-charcoal)] rounded-sm"
+                className="w-6 sm:w-8 h-3 sm:h-4 mx-auto bg-[var(--color-charcoal)] rounded-sm"
               />
             ))}
           </div>
@@ -186,11 +186,11 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* Decorative corner ornaments */}
-      <div className="absolute top-20 left-4 w-20 h-20 border-l-2 border-t-2 border-[var(--color-gold)]/30 z-30" />
-      <div className="absolute top-20 right-4 w-20 h-20 border-r-2 border-t-2 border-[var(--color-gold)]/30 z-30" />
-      <div className="absolute bottom-20 left-4 w-20 h-20 border-l-2 border-b-2 border-[var(--color-gold)]/30 z-30" />
-      <div className="absolute bottom-20 right-4 w-20 h-20 border-r-2 border-b-2 border-[var(--color-gold)]/30 z-30" />
+      {/* Decorative corner ornaments - hidden on small mobile */}
+      <div className="absolute top-20 left-4 w-10 h-10 sm:w-20 sm:h-20 border-l-2 border-t-2 border-[var(--color-gold)]/30 z-30 hidden sm:block" />
+      <div className="absolute top-20 right-4 w-10 h-10 sm:w-20 sm:h-20 border-r-2 border-t-2 border-[var(--color-gold)]/30 z-30 hidden sm:block" />
+      <div className="absolute bottom-20 left-4 w-10 h-10 sm:w-20 sm:h-20 border-l-2 border-b-2 border-[var(--color-gold)]/30 z-30 hidden sm:block" />
+      <div className="absolute bottom-20 right-4 w-10 h-10 sm:w-20 sm:h-20 border-r-2 border-b-2 border-[var(--color-gold)]/30 z-30 hidden sm:block" />
     </section>
   );
 }

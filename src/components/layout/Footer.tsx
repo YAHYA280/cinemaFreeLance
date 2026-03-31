@@ -35,8 +35,8 @@ export default function Footer() {
 
       {/* Film Strip Decoration */}
       <div className="film-strip-border bg-[var(--color-charcoal)]/50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 lg:gap-12">
             {/* Logo & About */}
             <div className={cn('space-y-6', isArabic && 'text-right')}>
               <Link href="/" className="inline-flex items-center gap-3">

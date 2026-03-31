@@ -129,7 +129,7 @@ export default function CinemaPage() {
             </motion.div>
 
             <h1 className={cn(
-              'text-5xl md:text-6xl lg:text-7xl font-bold mb-6',
+              'text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
             )}>
               {t.cinema.clubTitle}
@@ -163,7 +163,7 @@ export default function CinemaPage() {
       </section>
 
       {/* Screenings Program Section */}
-      <section ref={screeningsRef} className="py-20 bg-[var(--color-black-soft)]">
+      <section ref={screeningsRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-soft)]">
         <div className="container mx-auto px-4">
           {/* Section Header */}
           <motion.div
@@ -306,7 +306,7 @@ export default function CinemaPage() {
       </section>
 
       {/* Masterclass Section */}
-      <section ref={masterclassRef} className="py-20 bg-[var(--color-black-rich)]">
+      <section ref={masterclassRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-rich)]">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -374,17 +374,17 @@ export default function CinemaPage() {
       </section>
 
       {/* Youth Training Section */}
-      <section className="py-20 bg-[var(--color-black-soft)]">
+      <section className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-soft)]">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className={cn('text-center mb-12', isArabic && 'font-arabic')}
+            className={cn('text-center mb-8 sm:mb-12', isArabic && 'font-arabic')}
           >
             <h2 className={cn(
-              'text-3xl md:text-4xl font-bold mb-2',
+              'text-2xl sm:text-3xl md:text-4xl font-bold mb-2',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
             )}>
               {t.cinema.youthTraining}

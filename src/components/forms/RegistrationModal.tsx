@@ -73,7 +73,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md bg-gradient-to-b from-[var(--color-charcoal)] to-[var(--color-black-soft)] border border-[var(--color-gold)]/20 rounded-lg overflow-hidden"
+            className="relative w-full max-w-[90vw] sm:max-w-md bg-gradient-to-b from-[var(--color-charcoal)] to-[var(--color-black-soft)] border border-[var(--color-gold)]/20 rounded-lg overflow-hidden"
           >
             {/* Header */}
             <div className="relative p-6 bg-gradient-to-r from-[var(--color-crimson)]/20 to-transparent border-b border-[var(--color-gold)]/10">

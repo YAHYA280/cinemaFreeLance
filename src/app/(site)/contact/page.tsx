@@ -78,7 +78,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative py-24 bg-curtain overflow-hidden">
+      <section ref={heroRef} className="relative py-12 sm:py-16 md:py-24 bg-curtain overflow-hidden">
         <div className="absolute inset-0 bg-spotlight" />
         <div className="absolute inset-0 film-grain" />
 
@@ -90,7 +90,7 @@ export default function ContactPage() {
             className={cn('text-center', isArabic && 'font-arabic')}
           >
             <h1 className={cn(
-              'text-4xl md:text-5xl lg:text-6xl font-bold mb-6',
+              'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6',
               isArabic ? 'text-gradient-gold' : 'heading-display text-white'
             )}>
               {t.contact.title}
@@ -105,10 +105,10 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Info & Form Section */}
-      <section ref={contentRef} className="py-20 bg-[var(--color-black-soft)]">
+      <section ref={contentRef} className="py-12 sm:py-16 md:py-20 bg-[var(--color-black-soft)]">
         <div className="container mx-auto px-4">
           <div className={cn(
-            'grid grid-cols-1 lg:grid-cols-2 gap-16',
+            'grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16',
             isArabic && 'lg:grid-flow-dense'
           )}>
             {/* Contact Information */}
@@ -358,7 +358,7 @@ export default function ContactPage() {
       <section
         ref={registrationRef}
         id="register"
-        className="py-20 bg-gradient-to-b from-[var(--color-crimson)]/10 via-[var(--color-black-rich)] to-[var(--color-black-rich)]"
+        className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-[var(--color-crimson)]/10 via-[var(--color-black-rich)] to-[var(--color-black-rich)]"
       >
         <div className="container mx-auto px-4">
           <motion.div
