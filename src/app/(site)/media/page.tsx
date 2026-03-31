@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
-  Newspaper, Image as ImageIcon, Video, ExternalLink, Calendar,
-  Play, Grid, List, X, ChevronLeft, ChevronRight, Globe, Tv
+  Newspaper, Video, ExternalLink, Calendar,
+  Play, Globe, Tv
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
@@ -47,16 +47,6 @@ const fallbackNewsArticles: NewsArticle[] = [
   { id: '4', title_ar: 'شراكة جديدة مع المركز السينمائي المغربي', title_fr: 'Nouveau partenariat avec le Centre Cinematographique Marocain', excerpt_ar: 'وقعت جمعية الكرامة اتفاقية شراكة استراتيجية مع المركز السينمائي المغربي.', excerpt_fr: 'L\'association Al-Karama a signe un accord de partenariat strategique avec le Centre Cinematographique Marocain.', source: 'Hespress', date: '2024-01-15', category_ar: 'شراكات', category_fr: 'Partenariats', display_order: 4 },
 ];
 
-const galleryImages = [
-  { id: 1, category: 'cinema', event: { ar: 'افتتاح النادي السينمائي', fr: 'Inauguration Cine-Club' } },
-  { id: 2, category: 'cinema', event: { ar: 'عرض فيلم بامو', fr: 'Projection Bamo' } },
-  { id: 3, category: 'theatre', event: { ar: 'مسرحية صمت الكلام', fr: 'Piece Le Silence des Mots' } },
-  { id: 4, category: 'training', event: { ar: 'ورشة كتابة السيناريو', fr: 'Atelier Scenario' } },
-  { id: 5, category: 'cinema', event: { ar: 'ماستر كلاس', fr: 'Masterclass' } },
-  { id: 6, category: 'theatre', event: { ar: 'بروفات مسرحية', fr: 'Repetitions' } },
-  { id: 7, category: 'training', event: { ar: 'تكوين المكونين', fr: 'Formation Formateurs' } },
-  { id: 8, category: 'cinema', event: { ar: 'نقاش سينمائي', fr: 'Debat Cinematographique' } },
-];
 
 const fallbackVideos: VideoItem[] = [
   {
@@ -80,7 +70,6 @@ const fallbackVideos: VideoItem[] = [
 ];
 
 type TabType = 'print' | 'online' | 'tv';
-type GalleryFilter = 'all' | 'cinema' | 'theatre' | 'training';
 
 export default function MediaPage() {
   const { t, isArabic } = useLanguage();
@@ -90,9 +79,6 @@ export default function MediaPage() {
   const videos = dbVideos.length > 0 ? dbVideos : fallbackVideos;
 
   const [activeTab, setActiveTab] = useState<TabType>('print');
-  const [galleryFilter, setGalleryFilter] = useState<GalleryFilter>('all');
-  const [lightboxImage, setLightboxImage] = useState<number | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const heroRef = React.useRef(null);
   const contentRef = React.useRef(null);
@@ -100,22 +86,12 @@ export default function MediaPage() {
   const isHeroInView = useInView(heroRef, { once: true });
   const isContentInView = useInView(contentRef, { once: true, margin: '-100px' });
 
-  const filteredImages = galleryImages.filter(
-    img => galleryFilter === 'all' || img.category === galleryFilter
-  );
-
   const tabs = [
     { id: 'print' as const, icon: Newspaper, labelAr: t.media.printPress, labelFr: 'Presse ecrite' },
     { id: 'online' as const, icon: Globe, labelAr: t.media.onlinePress, labelFr: 'Presse en ligne' },
     { id: 'tv' as const, icon: Tv, labelAr: t.media.tvChannels, labelFr: 'Chaines TV' },
   ];
 
-  const galleryFilters = [
-    { id: 'all' as const, labelAr: 'الكل', labelFr: 'Tous' },
-    { id: 'cinema' as const, labelAr: 'سينما', labelFr: 'Cinema' },
-    { id: 'theatre' as const, labelAr: 'مسرح', labelFr: 'Theatre' },
-    { id: 'training' as const, labelAr: 'تكوين', labelFr: 'Formation' },
-  ];
 
   return (
     <div className="min-h-screen pt-20">

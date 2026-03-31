@@ -39,7 +39,6 @@ export default function DynamicGallery() {
       const { data, error } = await supabase
         .from('photos')
         .select('*')
-        .order('display_order')
         .order('created_at', { ascending: false });
       if (error) console.error('Error fetching photos:', error);
       setPhotos(data || []);
